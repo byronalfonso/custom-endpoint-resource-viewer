@@ -13,3 +13,12 @@ Version: 1.0.0
 */
 
 defined( 'ABSPATH' ) || exit;
+
+// Enable autoloading
+if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
+	require_once dirname( __FILE__ ) . '/vendor/autoload.php';
+}
+
+
+use Includes\TestClass;
+$testClass = new TestClass();

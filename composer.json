@@ -8,5 +8,9 @@
             "email": "maximuz313@gmail.com"
         }
     ],
-    "require": {}
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {"Includes\\": "./includes"}
+    }
 }
