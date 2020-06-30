@@ -1,0 +1,12 @@
+{
+    "name": "root/custom-endpoint-resource-viewer",
+    "description": "A Wordpress plugin that generates a custom endpoint that allows a user to view a resource from an external API on that endpoint.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Byron Alfonso",
+            "email": "maximuz313@gmail.com"
+        }
+    ],
+    "require": {}
+}
