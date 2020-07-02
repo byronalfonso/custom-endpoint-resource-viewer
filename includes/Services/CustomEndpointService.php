@@ -1,6 +1,8 @@
 <?php
 namespace Includes\Services;
 
+use Includes\Config;
+
 class CustomEndpointService
 {
 	public function initialize()
@@ -21,9 +23,9 @@ class CustomEndpointService
     
     function override_custom_enpoint_template( $original_template ) {
         $customEndpoint = get_query_var( 'cerv' );
-
+        
         if ( $customEndpoint ) {
-            $template = plugin_dir_path( __FILE__ ) . 'templates/custom.php';
+            $template = Config::templatePath() . 'custom.php';
             return $template;
         }
 
