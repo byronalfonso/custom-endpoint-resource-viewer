@@ -14,48 +14,18 @@ Version: 1.0.0
 
 defined( 'ABSPATH' ) || exit;
 
-// echo();
-// die;
+/*
+	- Add a bootstrap file
+	- Add a config file or class
+	- Setup the main plugin file
+	- Setup/Prepare Services and Managers
+*/
 
-
-// Enable autoloading
-if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
-	require_once dirname( __FILE__ ) . '/vendor/autoload.php';
-}
-
-
-function cerv_activate_plugin() {
-	flush_rewrite_rules();
-}
-register_activation_hook( __FILE__, 'cerv_activate_plugin' );
+require_once dirname( __FILE__ ) . '/bootstrap.php';
 
 /**
- * The code that runs during plugin deactivation
+ * Initialize and run the plugin
  */
-function cerv_deactivate_plugin() {
-	flush_rewrite_rules();
+if ( class_exists( 'Includes\\CERV' ) ) {
+	Includes\CERV::run();
 }
-register_deactivation_hook( __FILE__, 'cerv_deactivate_plugin' );
-
-function custom_enpoint_rewrite_rule() {	
-	add_rewrite_rule('^cerv$', 'index.php?cerv=1', 'top');
-	flush_rewrite_rules();  
-}
-add_action('init', 'custom_enpoint_rewrite_rule');
-
-function custom_rewrite_tag( $vars ) {
-	add_rewrite_tag( '%cerv%', '([^&]+)');
-}
-add_action( 'init', 'custom_rewrite_tag');
-
-function override_custom_enpoint_template( $original_template ) {
-	$customEndpoint = get_query_var( 'cerv' );
-	
-	if ( $customEndpoint ) {
-		$template = plugin_dir_path( __FILE__ ) . 'templates/custom.php';
-		return $template;
-	}
-	
-	return $original_template;
-}
-add_filter( 'template_include', 'override_custom_enpoint_template' );
