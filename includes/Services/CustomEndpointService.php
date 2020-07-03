@@ -3,6 +3,7 @@ namespace Includes\Services;
 
 use Includes\Config;
 use Includes\Managers\TemplateManager;
+use Includes\Services\API\ResourceService;
 use Includes\Interfaces\PluginServiceInterface;
 
 class CustomEndpointService implements PluginServiceInterface
@@ -38,6 +39,8 @@ class CustomEndpointService implements PluginServiceInterface
         $queryVar = get_query_var( 'cerv_endpoint' );
         
         if ( $queryVar ) {
+            $resourceService = new ResourceService();
+            $resource = $resourceService->getResource('/users');
             return TemplateManager::getPluginTemplate('custom.php') ?: $original_template;
         }
 

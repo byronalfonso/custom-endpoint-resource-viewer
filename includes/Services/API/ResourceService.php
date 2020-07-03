@@ -14,7 +14,7 @@ class ResourceService
         $this->client = new APIRequestService($this->resourcePath); // move base path to config later
     }
 
-    public function setResourcePath($resourcePath){
+    private function setResourcePath($resourcePath){
         $this->resourcePath = $resourcePath;
     }
 
@@ -23,6 +23,6 @@ class ResourceService
     }
 
     public function getResource(String $resource){
-        $this->client->_GET($resource);
+        return $this->client->_GET($resource);
     }
 }
