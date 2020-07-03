@@ -2,6 +2,7 @@
 namespace Includes\Services;
 
 use Includes\Config;
+use Includes\Managers\TemplateManager;
 use Includes\Interfaces\PluginServiceInterface;
 
 class CustomEndpointService implements PluginServiceInterface
@@ -37,8 +38,7 @@ class CustomEndpointService implements PluginServiceInterface
         $queryVar = get_query_var( 'cerv_endpoint' );
         
         if ( $queryVar ) {
-            $template = Config::get('templatePath') . 'custom.php';
-            return $template;
+            return TemplateManager::getPluginTemplate('custom.php') ?: $original_template;
         }
 
         return $original_template;
