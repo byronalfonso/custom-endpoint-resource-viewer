@@ -3,21 +3,25 @@ namespace Includes;
 
 class Config
 {	
-    private static $pluginPath;
-    private static $templatePath;
+    private static $config;
 
     public static function init(){
-        self::$pluginPath = plugin_dir_path( dirname(__FILE__) );
-        self::$templatePath = self::$pluginPath . 'templates/';
+        $basePath = plugin_dir_path( dirname(__FILE__) );
+
+        self::$config = array(
+            'pluginPath' => $basePath,
+            'templatePath' => $basePath . 'templates/',
+            'defaultEndpoint' => 'cerv'
+        );
     }
+    
+    public static function get(String $key){
+        if(self::$config[$key]){
+            return self::$config[$key];
+        }
 
-	public static function pluginPath(){
-        return self::$pluginPath;
-	}
-
-	public static function templatePath(){
-        return self::$templatePath;
-	}
+        return -1;
+    }
 }
 
 Config::init();

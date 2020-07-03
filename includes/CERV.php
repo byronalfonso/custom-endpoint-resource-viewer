@@ -15,5 +15,4 @@ final class CERV
 		$service = new $class();
 		$service->initialize();
 	}
-
 }
