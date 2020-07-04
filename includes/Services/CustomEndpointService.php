@@ -16,7 +16,7 @@ class CustomEndpointService implements PluginServiceInterface
         add_action('init', array($this, 'custom_enpoint_rewrite_rule') );
         add_action( 'init', array($this, 'custom_rewrite_tag') );
         // add_filter( 'query_vars',  array($this, 'add_query_vars')); // alternative solution to add_rewrite_tag
-        add_filter( 'template_include', array($this, 'override_custom_enpoint_template') );
+        add_action('template_redirect', array($this, 'override_template') );
     }
 
     public function custom_rewrite_tag( $vars ) {
@@ -34,16 +34,19 @@ class CustomEndpointService implements PluginServiceInterface
         add_rewrite_rule("^{$this->defaultEndpoint}$", 'index.php?cerv_endpoint=1', 'top');
         flush_rewrite_rules();
     }
-    
-    public function override_custom_enpoint_template( $original_template ) {
+
+    public function override_template()
+    {
         $queryVar = get_query_var( 'cerv_endpoint' );
         
         if ( $queryVar ) {
             $resourceService = new ResourceService();
-            $resource = $resourceService->getResource('/users');
-            return TemplateManager::getPluginTemplate('custom.php') ?: $original_template;
+            $resource = array(
+                'title' => 'Users',
+                'data' => $resourceService->getResource('/users')
+            );
+            require_once TemplateManager::getPluginTemplate('custom.php');
+            die;
         }
-
-        return $original_template;
     }
 }
