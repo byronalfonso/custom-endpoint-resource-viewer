@@ -62,6 +62,6 @@ class AssetsService implements PluginServiceInterface
     }
 
     private function localizeScripts(){
-        wp_localize_script( 'cerv-resource-list', 'cervObj', array( 'api_endpoint' => 'https://jsonplaceholder.typicode.com' ) );
+        wp_localize_script( 'cerv-resource-list', 'cervObj', array( 'api_endpoint' => Config::get('defaultAPIEnpoint') ) );
     }    
 }

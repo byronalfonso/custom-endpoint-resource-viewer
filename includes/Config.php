@@ -18,7 +18,8 @@ final class Config
             'pluginUrl' => $baseUrl,
             'pluginTemplatePath' => $basePath . 'templates/',
             'pluginAssetsUrl' => $baseUrl . 'assets/',
-            'defaultEndpoint' => 'cerv'
+            'defaultEndpoint' => 'cerv',
+            'defaultAPIEnpoint' => 'https://jsonplaceholder.typicode.com',
         );
     }
     

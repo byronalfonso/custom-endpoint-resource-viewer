@@ -10,7 +10,7 @@ class ResourceService
     private $resourcePath;
 
     public function __construct(){
-        $this->setResourcePath('https://jsonplaceholder.typicode.com');
+        $this->setResourcePath(Config::get('defaultAPIEnpoint'));
         $this->client = new APIRequestService($this->resourcePath); // move base path to config later
     }
 
