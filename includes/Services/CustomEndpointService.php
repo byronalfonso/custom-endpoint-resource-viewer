@@ -2,6 +2,7 @@
 namespace Includes\Services;
 
 use Includes\Config;
+use Includes\Services\AssetsService;
 use Includes\Managers\TemplateManager;
 use Includes\Services\API\ResourceService;
 use Includes\Interfaces\PluginServiceInterface;
@@ -39,9 +40,10 @@ class CustomEndpointService implements PluginServiceInterface
     {
         $queryVar = get_query_var( 'cerv_endpoint' );
         
-        if ( $queryVar ) {
-            $assetsUrl = Config::get('pluginAssetsUrl');
-            wp_enqueue_script( 'cerv-resource-list', $assetsUrl . '/main.js', array( 'jquery' ), '1.0.0', false );
+        if ( $queryVar ) {       
+            $assets = AssetsService::getInstance();
+            $assets->enqueueScripts(['cerv-resource-list']);
+            $assets->enqueueStyles(['cerv-resource-style', 'cerv-modal-style']);
 
             $resourceService = new ResourceService();
             $resource = array(

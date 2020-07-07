@@ -8,6 +8,7 @@ final class CERV
 	 * @return void
 	 */
 	public static function run(){		
+        self::initializeService(Services\AssetsService::class);
         self::initializeService(Services\CustomEndpointService::class);
 	}
 	
