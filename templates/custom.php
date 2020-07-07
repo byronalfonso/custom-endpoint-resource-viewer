@@ -4,13 +4,26 @@
 <style>
     div.cerv-container{
         max-width:100%;
-        width: 1100px;
+        width: 1200px;
         margin: 0 auto;
         padding: 1.5em;
     }
 
     table.cerv-resource-table{
         font-size: 1em;
+    }
+
+    table.cerv-resource-table thead tr{
+        background: #333;
+        color: #fff;
+    }
+
+    table.cerv-resource-table tr:nth-child(even){
+        background: #aaa;
+    }
+
+    table.cerv-resource-table td.user-id{
+        text-align: center;
     }
 
 	@media only screen 
@@ -39,22 +52,40 @@
             border: none;
             border-bottom: 1px solid #eee;
             position: relative;
-            padding-left: 50%;
+            padding-left: 45%;
+            border: 1px solid #ddd;
+            border-collapse: collapse;
         }
 
         td:before {
             position: absolute;
             top: 0;
             left: 6px;
-            width: 45%;
+            width: 35%;
             padding-right: 10px;
             white-space: nowrap;
+            padding: 10px;
+            background: #333;
+            color: #fff;
         }
 
-        td:nth-of-type(1):before { content: "Name"; }
-        td:nth-of-type(2):before { content: "Email"; }
-        td:nth-of-type(3):before { content: "City"; }
-        td:nth-of-type(4):before { content: "Phone"; }
+        table.cerv-resource-table td.user-id{
+            text-align: left;
+        }
+
+        table.cerv-resource-table thead tr{
+            background: none;
+            color: #000;
+        }
+
+        table.cerv-resource-table tr:nth-child(even){
+            background: none;
+        }
+
+        td:nth-of-type(1):before { content: "User ID"; }
+        td:nth-of-type(2):before { content: "Username"; }
+        td:nth-of-type(3):before { content: "Name"; }
+        td:nth-of-type(4):before { content: "Email"; }
         td:nth-of-type(5):before { content: "Website"; }
         td:nth-of-type(6):before { content: "Company"; }
     }
@@ -63,11 +94,11 @@
 <div class="cerv-container">
     <table class="cerv-resource-table" role="table">
         <thead role="rowgroup">
-            <tr role="row">
+            <tr role="row">                
+                <th role="columnheader">User ID</th>                
+                <th role="columnheader">Username</th>                
                 <th role="columnheader">Name</th>
-                <th role="columnheader">Email</th>
-                <th role="columnheader">City</th>
-                <th role="columnheader">Phone</th>
+                <th role="columnheader">Email</th>                   
                 <th role="columnheader">Website</th>
                 <th role="columnheader">Company</th>
             </tr>
@@ -75,10 +106,10 @@
         <tbody role="rowgroup">
         <?php foreach ($resource['data'] as $value) { ?>
             <tr role="row">
+            <td role="cell" class="user-id"><?php echo $value['id'] ?></td>
+            <td role="cell"><?php echo $value['username'] ?></td>            
             <td role="cell"><?php echo $value['name'] ?></td>
-            <td role="cell"><?php echo $value['email'] ?></td>
-            <td role="cell"><?php echo $value['address']['city'] ?></td>
-            <td role="cell"><?php echo $value['phone'] ?></td>
+            <td role="cell"><?php echo $value['email'] ?></td>            
             <td role="cell"><?php echo $value['website'] ?></td>
             <td role="cell"><?php echo $value['company']['name'] ?></td>
             </tr>
