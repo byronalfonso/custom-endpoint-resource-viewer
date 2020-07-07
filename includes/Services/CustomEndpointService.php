@@ -40,6 +40,9 @@ class CustomEndpointService implements PluginServiceInterface
         $queryVar = get_query_var( 'cerv_endpoint' );
         
         if ( $queryVar ) {
+            $assetsUrl = Config::get('pluginAssetsUrl');
+            wp_enqueue_script( 'cerv-resource-list', $assetsUrl . '/main.js', array( 'jquery' ), '1.0.0', false );
+
             $resourceService = new ResourceService();
             $resource = array(
                 'title' => 'Users',

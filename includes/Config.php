@@ -11,10 +11,13 @@ final class Config
 	 */
     public static function init(){
         $basePath = plugin_dir_path( dirname(__FILE__) );
+        $baseUrl = plugin_dir_url( dirname(__FILE__) );
 
         self::$config = array(
             'pluginPath' => $basePath,
+            'pluginUrl' => $baseUrl,
             'pluginTemplatePath' => $basePath . 'templates/',
+            'pluginAssetsUrl' => $baseUrl . 'assets/',
             'defaultEndpoint' => 'cerv'
         );
     }
