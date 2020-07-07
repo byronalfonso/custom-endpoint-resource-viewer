@@ -23,6 +23,14 @@ class ResourceService
     }
 
     public function getResource(String $resource){
-        return $this->client->_GET($resource);
+        $resource = $this->client->_GET($resource);
+        $resource['hasErrors'] = false;
+
+        if(isset($resource['error'])){
+            $resource['hasErrors'] = true;
+            return $resource;
+        }
+
+        return $resource;
     }
 }

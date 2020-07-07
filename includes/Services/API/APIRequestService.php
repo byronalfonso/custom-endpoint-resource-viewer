@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ConnectException;
 
 class APIRequestService
 {
@@ -23,9 +24,16 @@ class APIRequestService
 
 	public function _GET(String $url)
 	{
-        $endpoint = $this->baseUri . $url;
-        $response = $this->request('GET', $endpoint);
-        return $this->prepareResponse($response);
+        try {
+			$endpoint = $this->baseUri . $url;
+            $response = $this->request('GET', $endpoint);
+            return $this->prepareResponse($response);
+		} catch (Exception $e) {
+            return array(
+                "status" => "error",
+                "error" => $e->getMessage()
+            );
+		}
     }
 
     public function _POST(String $url)
@@ -57,14 +65,21 @@ class APIRequestService
                 function (ResponseInterface $res) {
                     return $res;
                 },
-                function (RequestException $e) {
-                    return $e->getResponse();
+                function (Exception $e) {
+                    throw new Exception($e->getMessage());
                 }
             )
             ->wait();
     }
     
     private function prepareResponse($response){
-        return json_decode($response->getBody(), true);
+        if(empty($response)){
+            return -1;
+        }
+
+        return array(
+            "status" => "success",
+            "data" => json_decode($response->getBody(), true)
+        );
     }
 }
