@@ -62,13 +62,13 @@ class CustomEndpointService implements PluginServiceInterface
             $users = $resourceService->getResource('/users');
             if ($users['hasErrors']) {
                 $error = $users;
-                require_once TemplateManager::getPluginTemplate('error.php');
+                require_once TemplateManager::pluginTemplate('error.php');
             }
 
             $resource = [
                 'title' => 'Users', 'data' => $users['data'],
             ];
-            require_once TemplateManager::getPluginTemplate('custom.php');
+            require_once TemplateManager::pluginTemplate('custom.php');
             
             die;
         }

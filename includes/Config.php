@@ -21,10 +21,11 @@ final class Config
             'pluginPath' => $basePath,
             'pluginUrl' => $baseUrl,
             'pluginTemplatePath' => $basePath . 'templates/',
+            'themeTemplatePath' => get_template_directory() . 'templates/',
             'pluginAssetsUrl' => $baseUrl . 'assets/',
             'defaultEndpoint' => 'cerv',
             'defaultAPIEnpoint' => 'https://jsonplaceholder.typicode.com',
-            'cacheExpiration' => 60, //in seconds
+            'cacheExpiration' => '60', //in seconds
         ];
     }
     

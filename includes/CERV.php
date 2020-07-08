@@ -24,7 +24,7 @@ final class CERV
      * Creates a new intance of the service and executes its initialize method
      * @return void
      */
-    public static function initializeService(PluginServiceInterface $class)
+    public static function initializeService(string $class)
     {
         $service = new $class();
         $service->initialize();

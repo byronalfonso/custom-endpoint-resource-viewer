@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Includes\Managers;
 
 use Includes\Config;
@@ -11,28 +13,30 @@ final class TemplateManager
      *
      * @return $pluginTemplate - string
      */
-    public static function getPluginTemplate(string $templateName)
+    public static function pluginTemplate(string $templateName): string
     {
-
         $template = Config::get('pluginTemplatePath') . $templateName;
-        if (file_exists($template)) {
-            return $template;
+
+        if (!file_exists($template)) {
+            throw new Exception("The template: {$template} does not exists.", 1);
         }
 
-        return -1;
+        return $template;
     }
 
     /**
      * * Gets the plugin template from the plugins/templates dir
      *
-     * @return $themeTemplate - string
+     * @return string $themeTemplate
      */
-    public static function getThemeTemplate(string $templateName)
+    public static function themeTemplate(string $templateName): string
     {
+        $template = Config::get('themeTemplatePath') . $templateName;
 
-        /*
-           Implement logic later
-          The plan is to give the user the ability to override the plugin template from theme directory
-        */
+        if (!file_exists($template)) {
+            throw new Exception("The template: {$template} does not exists.", 1);
+        }
+
+        return $template;
     }
 }
