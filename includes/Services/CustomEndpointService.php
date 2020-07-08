@@ -59,7 +59,7 @@ class CustomEndpointService implements PluginServiceInterface
             $assets->enqueueScripts(['cerv-resource-list']);
             $assets->enqueueStyles(['cerv-resource-style', 'cerv-modal-style']);
             $resourceService = new ResourceService();
-            $users = $resourceService->getResource('/users');
+            $users = $resourceService->fetchResource('/users');
             if ($users['hasErrors']) {
                 $error = $users;
                 require_once TemplateManager::pluginTemplate('error.php');

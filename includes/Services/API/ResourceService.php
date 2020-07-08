@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Includes\Services\API;
 
 use Includes\Config;
@@ -18,22 +20,20 @@ class ResourceService
         $this->client = new HttpClientService($this->resourcePath); // move base path to config later
     }
 
-    private function setResourcePath($resourcePath)
+    private function setResourcePath(string $resourcePath)
     {
 
-             $this->resourcePath = $resourcePath;
+        $this->resourcePath = $resourcePath;
     }
 
-    public function getResourcePath()
+    public function resourcePath(): string
     {
-
-             return $this->resourcePath;
+        return $this->resourcePath;
     }
 
-    public function getResource(string $resource)
+    public function fetchResource(string $resource): array
     {
-
-             $resource = $this->client->GET($resource);
+        $resource = $this->client->GET($resource);
         $resource['hasErrors'] = false;
         if (isset($resource['error'])) {
             $resource['hasErrors'] = true;
