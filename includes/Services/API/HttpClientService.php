@@ -29,7 +29,8 @@ class HttpClientService
         // Setup caching mechanism
         $stack = HandlerStack::create();
         $stack->push(new CacheMiddleware(new PrivateCacheStrategy(new DoctrineCacheStorage(new FilesystemCache('/tmp/')), Config::get('cacheExpiration'))), 'cache');
-// Initialize the client with the handler option
+        
+        // Initialize the client with the handler option
         $this->client = new Client(['handler' => $stack]);
     }
 

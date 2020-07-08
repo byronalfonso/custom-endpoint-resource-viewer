@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Includes\Services;
 
 use Includes\Config;
@@ -16,27 +18,35 @@ class CustomEndpointService implements PluginServiceInterface
         $this->defaultEndpoint = Config::get('defaultEndpoint');
         add_action('init', [$this, 'customEnpointRewriteRule']);
         add_action('init', [$this, 'customRewriteTag']);
-    // add_filter( 'query_vars',  array($this, 'add_query_vars')); // alternative solution to add_rewrite_tag
         add_action('template_redirect', [$this, 'overrideTemplate']);
     }
 
-    public function customRewriteTag($vars)
+    /**
+     * Adds a unique rewrite tag for the CERV plugin
+     *
+     * @return void
+     */
+    public function customRewriteTag()
     {
-
         add_rewrite_tag("%cerv_endpoint%", '([^&]+)');
     }
-
-    // alternative solution to add_rewrite_tag
-    public function add_query_vars($query_vars)
+    
+    /**
+     * Adds a query var that is unique to CERV plugin
+     * Note: This function is no implement but is an
+     * alternative solution to add_rewrite_tag
+     * add_filter( 'query_vars',  array($this, 'addQueryVars'));
+     *
+     * @return array
+     */
+    public function addQueryVars(array $queryVars): array
     {
-
-        $query_vars[] = 'cerv_endpoint';
-        return $query_vars;
+        $queryVars[] = 'cerv_endpoint';
+        return $queryVars;
     }
 
     public function customEnpointRewriteRule()
     {
-        // note: possibly move the default endpoint into a separate function once we add a settings page for it
         add_rewrite_rule("^{$this->defaultEndpoint}$", 'index.php?cerv_endpoint=1', 'top');
         flush_rewrite_rules();
     }
@@ -53,12 +63,12 @@ class CustomEndpointService implements PluginServiceInterface
             if ($users['hasErrors']) {
                 $error = $users;
                 require_once TemplateManager::getPluginTemplate('error.php');
-            } else {
-                $resource = [
-                'title' => 'Users', 'data' => $users['data'],
-                ];
-                require_once TemplateManager::getPluginTemplate('custom.php');
             }
+
+            $resource = [
+                'title' => 'Users', 'data' => $users['data'],
+            ];
+            require_once TemplateManager::getPluginTemplate('custom.php');
             
             die;
         }

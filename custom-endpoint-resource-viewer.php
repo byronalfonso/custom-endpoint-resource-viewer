@@ -1,7 +1,9 @@
 <?php
+
 /**
  * @package  CERV
  */
+
 /*
 Plugin Name: Custom Endpoint Resource Viewer
 Plugin URI: https://github.com/byronalfonso
@@ -12,20 +14,18 @@ Text Domain: custom-endpoint-resource-viewer
 Version: 1.0.0
 */
 
-defined( 'ABSPATH' ) || exit;
-
+defined('ABSPATH') || exit;
 /*
-	- Add a bootstrap file
-	- Add a config file or class
-	- Setup the main plugin file
-	- Setup/Prepare Services and Managers
+  - Add a bootstrap file
+ - Add a config file or class
+   - Setup the main plugin file
+   - Setup/Prepare Services and Managers
 */
 
-require_once dirname( __FILE__ ) . '/bootstrap.php';
-
+require_once dirname(__FILE__) . '/bootstrap.php';
 /**
  * Initialize and run the plugin
  */
-if ( class_exists( 'Includes\\CERV' ) ) {
-	Includes\CERV::run();
+if (class_exists('Includes\\CERV')) {
+    Includes\CERV::run();
 }
