@@ -2,7 +2,7 @@
 namespace Includes\Services\API;
 
 use Includes\Config;
-use Includes\Services\API\APIRequestService;
+use Includes\Services\API\HttpClientService;
 
 class ResourceService
 {    
@@ -11,7 +11,7 @@ class ResourceService
 
     public function __construct(){
         $this->setResourcePath(Config::get('defaultAPIEnpoint'));
-        $this->client = new APIRequestService($this->resourcePath); // move base path to config later
+        $this->client = new HttpClientService($this->resourcePath); // move base path to config later
     }
 
     private function setResourcePath($resourcePath){

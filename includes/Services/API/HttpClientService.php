@@ -12,7 +12,7 @@ use Doctrine\Common\Cache\FilesystemCache;
 use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
 use Kevinrob\GuzzleCache\Storage\DoctrineCacheStorage;
 
-class APIRequestService
+class HttpClientService
 {
     private $baseUri;
     private $client;
