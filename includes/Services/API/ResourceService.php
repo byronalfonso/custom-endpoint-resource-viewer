@@ -33,7 +33,7 @@ class ResourceService
     public function getResource(string $resource)
     {
 
-             $resource = $this->client->_GET($resource);
+             $resource = $this->client->GET($resource);
         $resource['hasErrors'] = false;
         if (isset($resource['error'])) {
             $resource['hasErrors'] = true;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Includes\Services\API;
 
 use Exception;
@@ -18,7 +20,7 @@ class HttpClientService
     private $baseUri;
     private $client;
 
-    public function __construct($baseUri = null)
+    public function __construct(string $baseUri = null)
     {
 
         if ($baseUri) {
@@ -28,41 +30,51 @@ class HttpClientService
         
         // Setup caching mechanism
         $stack = HandlerStack::create();
-        $stack->push(new CacheMiddleware(new PrivateCacheStrategy(new DoctrineCacheStorage(new FilesystemCache('/tmp/')), Config::get('cacheExpiration'))), 'cache');
+        $stack->push(
+            new CacheMiddleware(
+                new PrivateCacheStrategy(
+                    new DoctrineCacheStorage(
+                        new FilesystemCache('/tmp/')
+                    ),
+                    Config::get('cacheExpiration')
+                )
+            ),
+            'cache'
+        );
         
         // Initialize the client with the handler option
         $this->client = new Client(['handler' => $stack]);
     }
 
-    public function _GET(string $url)
+    public function GET(string $url): array
     {
         try {
             $endpoint = $this->baseUri . $url;
             $response = $this->request('GET', $endpoint);
             return $this->prepareResponse($response);
-        } catch (Exception $e) {
+        } catch (Exception $error) {
             return [
-                "status" => "error", "error" => $e->getMessage(),
+                "status" => "error", "error" => $error->getMessage(),
             ];
         }
     }
 
-    public function _POST(string $url)
+    public function POST(string $url)
     {
         // In theory this class should support other REST operations
     }
 
-    public function _PUT(string $url)
+    public function PUT(string $url)
     {
         // In theory this class should support other REST operations
     }
 
-    public function _PATCh(string $url)
+    public function PATCH(string $url)
     {
         // In theory this class should support other REST operations
     }
 
-    private function validateUrl($url)
+    private function validateUrl(string $url)
     {
 
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
@@ -70,30 +82,27 @@ class HttpClientService
         }
     }
 
-    private function request($method, $endpoint)
+    private function request(string $method, string $endpoint): object
     {
         $request = new Request($method, $endpoint);
         return $this->client->sendAsync($request)
-            ->then(static function (ResponseInterface $res) {
-
-                    return $res;
-            }, static function (Exception $e) {
-
-                    throw new Exception($e->getMessage());
+            ->then(static function (ResponseInterface $res): object {
+                return $res;
+            }, static function (Exception $error) {
+                throw new Exception($error->getMessage());
             })
             ->wait();
     }
 
     
-    private function prepareResponse($response)
+    private function prepareResponse(object $response): array
     {
-
         if (empty($response)) {
-            return -1;
+            throw new Exception("Error: Empty response object found.", 1);
         }
-
+        
         return [
-            "status" => "success", "data" => json_decode($response->getBody(), true),
+            "status" => "success", "data" => json_decode(strval($response->getBody()), true),
         ];
     }
 }
