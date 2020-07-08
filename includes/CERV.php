@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Includes;
+
+use Includes\Interfaces\PluginServiceInterface;
 
 final class CERV
 {
@@ -10,7 +14,6 @@ final class CERV
      */
     public static function run()
     {
-
         self::initializeService(Services\AssetsService::class);
         self::initializeService(Services\CustomEndpointService::class);
     }
@@ -19,9 +22,8 @@ final class CERV
      * Creates a new intance of the service and executes its initialize method
      * @return void
      */
-    public static function initializeService($class)
+    public static function initializeService(PluginServiceInterface $class)
     {
-
         $service = new $class();
         $service->initialize();
     }
