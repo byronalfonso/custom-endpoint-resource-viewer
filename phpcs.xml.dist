@@ -35,6 +35,8 @@
         <properties>
             <property name="lineLimit" value="150" />
         </properties>
-    </rule> 
+    </rule>
+
+     <exclude-pattern type="relative">^index.php*</exclude-pattern>
 
 </ruleset>
