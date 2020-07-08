@@ -21,7 +21,7 @@
             <property
                 name="psr4"
                 type="array"
-                value="Includes=>Includes,Inpsyde\MyProject\Tests=>tests/src|tests/unit"/>
+                value="Includes=>includes,Inpsyde\MyProject\Tests=>tests/src|tests/unit"/>
         </properties>
     </rule>
     
@@ -30,5 +30,11 @@
             <property name="additionalAllowedNames" type="array" value="c,me,my" />
         </properties>
     </rule>
+    
+    <rule ref="Inpsyde.CodeQuality.LineLength">
+        <properties>
+            <property name="lineLimit" value="150" />
+        </properties>
+    </rule> 
 
 </ruleset>

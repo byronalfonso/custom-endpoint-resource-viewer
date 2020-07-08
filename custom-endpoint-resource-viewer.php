@@ -1,8 +1,6 @@
 <?php
 
-/**
- * @package  CERV
- */
+declare(strict_types=1);
 
 /*
 Plugin Name: Custom Endpoint Resource Viewer
