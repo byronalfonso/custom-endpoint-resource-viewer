@@ -1,4 +1,5 @@
 <?php
+
 namespace Includes\Services\API;
 
 use Exception;
@@ -17,88 +18,81 @@ class HttpClientService
     private $baseUri;
     private $client;
 
-    public function __construct($baseUri = null){
-        if($baseUri){
+    public function __construct($baseUri = null)
+    {
+
+        if ($baseUri) {
             $this->validateUrl($baseUri);
             $this->baseUri = $baseUri;
-        }        
+        }
         
         // Setup caching mechanism
         $stack = HandlerStack::create();
-        $stack->push(
-            new CacheMiddleware(
-              new PrivateCacheStrategy(
-                new DoctrineCacheStorage(
-                  new FilesystemCache('/tmp/')
-                ),
-                Config::get('cacheExpiration')
-              )
-            ), 
-            'cache'
-        );
-
-        // Initialize the client with the handler option
+        $stack->push(new CacheMiddleware(new PrivateCacheStrategy(new DoctrineCacheStorage(new FilesystemCache('/tmp/')), Config::get('cacheExpiration'))), 'cache');
+// Initialize the client with the handler option
         $this->client = new Client(['handler' => $stack]);
     }
 
-	public function _GET(String $url)
-	{
+    public function _GET(string $url)
+    {
         try {
-			$endpoint = $this->baseUri . $url;
+            $endpoint = $this->baseUri . $url;
             $response = $this->request('GET', $endpoint);
             return $this->prepareResponse($response);
-		} catch (Exception $e) {
-            return array(
-                "status" => "error",
-                "error" => $e->getMessage()
-            );
-		}
+        } catch (Exception $e) {
+            return [
+                "status" => "error", "error" => $e->getMessage(),
+            ];
+        }
     }
 
-    public function _POST(String $url)
-	{
+    public function _POST(string $url)
+    {
         // In theory this class should support other REST operations
     }
 
-    public function _PUT(String $url)
-	{
+    public function _PUT(string $url)
+    {
         // In theory this class should support other REST operations
     }
 
-    public function _PATCh(String $url)
-	{
+    public function _PATCh(string $url)
+    {
         // In theory this class should support other REST operations
     }
 
-    private function validateUrl($url){
-        if ( !filter_var($url, FILTER_VALIDATE_URL) ) {
+    private function validateUrl($url)
+    {
+
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
             throw new Exception("Unable to process your request", 1);
         }
     }
 
     private function request($method, $endpoint)
-	{
+    {
         $request = new Request($method, $endpoint);
         return $this->client->sendAsync($request)
-            ->then(
-                function (ResponseInterface $res) {
+            ->then(static function (ResponseInterface $res) {
+
                     return $res;
-                },
-                function (Exception $e) {
+            }, static function (Exception $e) {
+
                     throw new Exception($e->getMessage());
-                }
-            )
+            })
             ->wait();
     }
+
     
-    private function prepareResponse($response){
-        if(empty($response)){
+    private function prepareResponse($response)
+    {
+
+        if (empty($response)) {
             return -1;
         }
 
-        return array(
-            "status" => "success",
-            "data" => json_decode($response->getBody(), true)
-        );
+        return [
+            "status" => "success", "data" => json_decode($response->getBody(), true),
+        ];
     }
 }
