@@ -20,6 +20,7 @@ final class Config
             'pluginAssetsUrl' => $baseUrl . 'assets/',
             'defaultEndpoint' => 'cerv',
             'defaultAPIEnpoint' => 'https://jsonplaceholder.typicode.com',
+            'cacheExpiration' => 60, //in section
         );
     }
     
