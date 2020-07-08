@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Includes;
 
+use Includes\Config;
 use Includes\Interfaces\PluginServiceInterface;
 
 final class CERV
@@ -14,6 +15,7 @@ final class CERV
      */
     public static function run()
     {
+        Config::init();
         self::initializeService(Services\AssetsService::class);
         self::initializeService(Services\CustomEndpointService::class);
     }
