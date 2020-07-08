@@ -55,7 +55,7 @@ class CustomEndpointService implements PluginServiceInterface
     {
         $queryVar = get_query_var('cerv_endpoint');
         if ($queryVar) {
-            $assets = AssetsService::getInstance();
+            $assets = AssetsService::instance();
             $assets->enqueueScripts(['cerv-resource-list']);
             $assets->enqueueStyles(['cerv-resource-style', 'cerv-modal-style']);
             $resourceService = new ResourceService();
