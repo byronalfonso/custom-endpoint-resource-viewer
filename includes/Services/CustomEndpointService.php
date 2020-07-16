@@ -33,7 +33,7 @@ class CustomEndpointService implements PluginServiceInterface
     
     /**
      * Adds a query var that is unique to CERV plugin
-     * Note: This function is no implement but is an
+     * Note: This function is not implement but is an
      * alternative solution to add_rewrite_tag
      * add_filter( 'query_vars',  array($this, 'addQueryVars'));
      *
