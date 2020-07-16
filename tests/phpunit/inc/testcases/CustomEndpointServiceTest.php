@@ -21,6 +21,18 @@ class CustomEndpointServiceTest extends \CERVTestCase {
         self::assertTrue( has_action('init', '\Includes\Services\CustomEndpointService->customRewriteTag()') );
         self::assertTrue( has_action('template_redirect', '\Includes\Services\CustomEndpointService->overrideTemplate()') );
     }
+
+
+    public function test_customRewriteTag_adds_the_corrects_tag(){
+        Config::init();
+
+        Functions\expect('add_rewrite_tag')
+            ->times(1)
+            ->with("%cerv_endpoint%", '([^&]+)');
+
+        ( new CustomEndpointService() )->customRewriteTag();
+    }
+    
     
 }
 
