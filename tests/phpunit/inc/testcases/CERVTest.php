@@ -62,7 +62,7 @@ class CERVTest extends \CERVTestCase {
     public function test_initializeServices_throw_error_when_not_given_a_plugin_service_interface(){
         // Run the plugin
         CERV::run();
-
+        
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid service initialization. Includes\Services\API\ResourceService must be an instance of the PluginServiceInterface.");
 
@@ -70,6 +70,23 @@ class CERVTest extends \CERVTestCase {
         CERV::initializeServices([            
             Includes\Services\API\ResourceService::class
         ]);
+    }
+
+    public function test_initializeServices_ignore_services_that_are_already_initialized(){        
+        // Run the plugin
+        CERV::run();
+        
+        // There should be 2 initialized plugin service
+        $this->assertEquals( 2, count( CERV::getInitializedServices() ) );
+        
+        // Initialized the same services
+        CERV::initializeServices([            
+            Includes\Services\AssetsService::class,
+            Includes\Services\CustomEndpointService::class
+        ]);
+
+        // Initialized services should be the same
+        $this->assertEquals( 2, count( CERV::getInitializedServices() ) );
     }
 }
 
