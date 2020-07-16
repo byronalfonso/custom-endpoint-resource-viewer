@@ -24,14 +24,38 @@ class CERVTest extends \CERVTestCase {
             ->justReturn( $this->dummyTemplateDir );
     }
 
-    public function test_run_initializes_config(){        
+    public function test_run_initializes_the_plugin_services(){        
+        // Initialized services should be none before running the CERV plugin.
+        $this->assertEquals( 0, count( CERV::getInitializedServices() ) );
+        
         // Run the plugin
-        ( new CERV() )->run();
+        CERV::run();
 
-        // Check some values from the Config
+        // After running the plugin, the initialized services should be 2 (2 are currently statically set inside CERV class)
+        $this->assertEquals( 2, count( CERV::getInitializedServices() ) );
+
+        // Make sure that the initialized plugin services are correct
+        $pluginServices = CERV::getInitializedServices();        
+        $this->assertEquals( in_array(Includes\Services\AssetsService::class, $pluginServices), true );
+        $this->assertEquals( in_array(Includes\Services\CustomEndpointService::class, $pluginServices), true );
+
+        // Make sure that the initialized plugin are a child of the PluginServiceInterface.
+        foreach ($pluginServices as $service) {
+            $this->assertEquals(
+                (new $service() instanceof Includes\Interfaces\PluginServiceInterface),
+                true
+            );
+        }
+    }
+
+    public function test_run_initializes_config(){
+        // Run the plugin
+        CERV::run();
+
+        // Verify that some values from the Config has been initialized and changed
         $this->assertEquals( $this->dummyPluginDirPath, Config::get('pluginPath') );
         $this->assertEquals( $this->dummyPluginDirUrl, Config::get('pluginUrl') );
         $this->assertEquals( $this->dummyTemplateDir . 'templates/', Config::get('themeTemplatePath') );
-    }
+    }    
 }
 
