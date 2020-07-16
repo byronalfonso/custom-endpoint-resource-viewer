@@ -36,6 +36,11 @@ final class CERV
                 continue;
             }
 
+            // Throw an error if the service is not an instance of PluginServiceInterface
+            if ( !is_subclass_of($class, 'Includes\Interfaces\PluginServiceInterface') ) {
+                throw new \Exception("Invalid service initialization. " . $class . " must be an instance of the PluginServiceInterface.");
+            }
+            
             $service = new $class();
             $service->initialize();
             array_push(self::$initializedServices, $class);

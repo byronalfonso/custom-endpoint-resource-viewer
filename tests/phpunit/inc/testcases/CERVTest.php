@@ -3,6 +3,7 @@
 use \Includes\CERV;
 use \Includes\Config;
 use \Brain\Monkey\Functions;
+use \Includes\Services\API\ResourceService;
 
 class CERVTest extends \CERVTestCase {
 
@@ -56,6 +57,19 @@ class CERVTest extends \CERVTestCase {
         $this->assertEquals( $this->dummyPluginDirPath, Config::get('pluginPath') );
         $this->assertEquals( $this->dummyPluginDirUrl, Config::get('pluginUrl') );
         $this->assertEquals( $this->dummyTemplateDir . 'templates/', Config::get('themeTemplatePath') );
-    }    
+    }
+    
+    public function test_initializeServices_throw_error_when_not_given_a_plugin_service_interface(){
+        // Run the plugin
+        CERV::run();
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Invalid service initialization. Includes\Services\API\ResourceService must be an instance of the PluginServiceInterface.");
+
+        // ResourceService is not an instance of the PluginServiceInterface, thus the function should throw an error
+        CERV::initializeServices([            
+            Includes\Services\API\ResourceService::class
+        ]);
+    }
 }
 
