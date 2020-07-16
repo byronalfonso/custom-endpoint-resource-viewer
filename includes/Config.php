@@ -36,7 +36,7 @@ final class Config
     public static function get(string $key): string
     {
         if (empty(self::$config[$key])) {
-            throw new Exception("Invalid config key.");
+            throw new \Exception("Invalid config key.");
         }
 
         return self::$config[$key];
