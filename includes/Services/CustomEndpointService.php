@@ -55,22 +55,31 @@ class CustomEndpointService implements PluginServiceInterface
     {
         $queryVar = get_query_var('cerv_endpoint');
         if ($queryVar) {
-            $assets = AssetsService::instance();
-            $assets->enqueueScripts(['cerv-resource-list']);
-            $assets->enqueueStyles(['cerv-resource-style', 'cerv-modal-style']);
-            $resourceService = new ResourceService();
-            $users = $resourceService->fetchResource('/users');
-            if ($users['hasErrors']) {
-                $error = $users;
-                require_once TemplateManager::pluginTemplate('error.php');
-            }
-
-            $resource = [
-                'title' => 'Users', 'data' => $users['data'],
-            ];
-            require_once TemplateManager::pluginTemplate('custom.php');
-            
-            die;
+            $this->renderEndpointTemplate();
+            $this->exit();
         }
+    }
+
+    public function renderEndpointTemplate()
+    {
+        $assets = AssetsService::instance();
+        $assets->enqueueScripts(['cerv-resource-list']);
+        $assets->enqueueStyles(['cerv-resource-style', 'cerv-modal-style']);
+        $resourceService = new ResourceService();
+        $users = $resourceService->fetchResource('/users');
+        if ($users['hasErrors']) {
+            $error = $users;
+            require_once TemplateManager::pluginTemplate('error.php');
+        }
+
+        $resource = [
+            'title' => 'Users', 'data' => $users['data'],
+        ];
+        require_once TemplateManager::pluginTemplate('custom.php');
+    }
+
+    public function exit(string $message="")
+    {
+        die($message);
     }
 }

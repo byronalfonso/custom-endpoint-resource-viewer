@@ -51,5 +51,25 @@ class CustomEndpointServiceTest extends \CERVTestCase {
         $test->customEnpointRewriteRule();
     }
     
+
+    public function test_overrideTemplate_render_the_endpoint_template_if_query_var_is_detected(){
+        Functions\expect( 'get_query_var' )
+            ->with('cerv_endpoint')
+            ->times(1)
+            ->andReturn(true);
+
+        $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
+        
+        $ceService->shouldReceive('renderEndpointTemplate')
+            ->once()
+            ->andReturn(1);
+
+        $ceService->shouldReceive('exit')
+            ->once()
+            ->andReturn(1);
+
+        $ceService->overrideTemplate();
+    }
+    
 }
 
