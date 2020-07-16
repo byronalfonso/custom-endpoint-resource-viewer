@@ -7,22 +7,8 @@ use \Includes\Services\API\ResourceService;
 
 class CERVTest extends \CERVTestCase {
 
-    private $dummyPluginDirPath = 'plugins/';
-    private $dummyPluginDirUrl = 'plugins/cerv';
-    private $dummyTemplateDir = 'themes/'; 
-
-
     public function setUp(): void {
         parent::setUp();
-
-        Functions\when( 'plugin_dir_path' )
-            ->justReturn( $this->dummyPluginDirPath );
-        
-        Functions\when( 'plugin_dir_url' )
-            ->justReturn( $this->dummyPluginDirUrl );
-
-        Functions\when( 'get_template_directory' )
-            ->justReturn( $this->dummyTemplateDir );
     }
 
     public function test_run_initializes_the_plugin_services(){        
