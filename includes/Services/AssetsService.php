@@ -37,12 +37,12 @@ class AssetsService implements PluginServiceInterface
     {
         // Make sure that AssetsService intance is instantiated
         if (empty(AssetsService::$instance)) {
-            throw new Exception("Invalid AssetsService instance.");
+            throw new \Exception("Invalid AssetsService instance.");
         }
 
         // Make sure that scripts has been passed correctly
         if (empty($scripts)) {
-            throw new Exception("Error: Empty scripts passed. Expected array of valid string-formatted scripts");
+            throw new \Exception("Error: Empty scripts passed. Expected array of valid string-formatted scripts");
         }
 
         foreach ($scripts as $script) {

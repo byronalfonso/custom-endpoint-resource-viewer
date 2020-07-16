@@ -18,7 +18,7 @@ final class TemplateManager
         $template = Config::get('pluginTemplatePath') . $templateName;
 
         if (!file_exists($template)) {
-            throw new Exception("The template: {$template} does not exists.", 1);
+            throw new \Exception("The template: {$template} does not exists.", 1);
         }
 
         return $template;
