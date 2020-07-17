@@ -82,10 +82,10 @@ class HttpClientService
         }
     }
 
-    private function request(string $method, string $endpoint): object
+    private function request(string $method, string $endpoint, $options = ['verify' => false]): object
     {
         $request = new Request($method, $endpoint);
-        return $this->client->sendAsync($request)
+        return $this->client->sendAsync($request, $options)
             ->then(static function (ResponseInterface $res): object {
                 return $res;
             }, static function (Exception $error) {
