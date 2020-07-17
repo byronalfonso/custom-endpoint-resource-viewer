@@ -7,10 +7,6 @@ use \Includes\Services\API\ResourceService;
 
 class CERVTest extends \CERVTestCase {
 
-    public function setUp(): void {
-        parent::setUp();
-    }
-
     public function test_run_initializes_the_plugin_services(){        
         // Initialized services should be none before running the CERV plugin.
         $this->assertEquals( 0, count( CERV::getInitializedServices() ) );

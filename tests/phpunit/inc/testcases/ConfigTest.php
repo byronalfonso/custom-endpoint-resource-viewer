@@ -3,19 +3,14 @@
 use \Includes\Config;
 use \Brain\Monkey\Functions;
 
-class CustomEndpointServiceTest extends \CERVTestCase {
+class ConfigTest extends \CERVTestCase {
 
     public function test_init_initializes_the_config(){
-
-        // The config should have nothing in it before init
-        $configBeforeInit = Config::getAll();
-        $this->assertTrue( count( $configBeforeInit ) === 0 );
-
         Config::init();
 
         // The config should have items in it after init
-        $configBeforeInit = Config::getAll();
-        $this->assertTrue( count( $configBeforeInit ) > 0 );
+        $config = Config::getAll();
+        $this->assertTrue( count( $config ) > 0 );
     }
     
     public function test_get_returns_correct_values_for_existing_and_valid_config_keys(){
