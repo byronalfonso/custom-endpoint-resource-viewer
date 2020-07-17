@@ -6,6 +6,7 @@ use \Brain\Monkey\Functions;
 use \Brain\Monkey\Actions;
 use \Includes\Services\CustomEndpointService;
 use \Includes\Services\API\ResourceService;
+use \Includes\Services\API\HttpClientService;
 
 class CustomEndpointServiceTest extends \CERVTestCase {
 
@@ -69,6 +70,38 @@ class CustomEndpointServiceTest extends \CERVTestCase {
             ->andReturn(1);
 
         $ceService->overrideTemplate();
+    }
+
+    public function test_renderEndpointTemplate_renders_the_custom_template_if_resource_has_no_error(){
+        Config::init();
+        Functions\when( 'wp_enqueue_script' )->justReturn(true);
+        Functions\when( 'wp_enqueue_style' )->justReturn(true);
+
+        $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
+
+        // Should load assets
+        $ceService->shouldReceive('loadAssets')->once();
+
+        // Should load resources
+        $ceService->shouldReceive('loadResource')
+            ->once()
+            ->with('/users')
+            ->andReturn(
+                [
+                    "status" => "success", 
+                    "data" => [],
+                    "hasErrors" => false
+                ]
+            );
+
+        // Should load template
+        $templateName = 'custom.php';
+        $ceService->shouldReceive('loadTemplate')
+            ->once()
+            ->andReturn(Config::get('pluginTemplatePath') . $templateName);
+
+        HttpClientService::setDevMode(true); // Used only to bypass an SSL error in testing
+        $ceService->renderEndpointTemplate();
     }
     
 }
