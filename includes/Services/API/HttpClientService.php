@@ -19,6 +19,7 @@ class HttpClientService
 {
     private $baseUri;
     private $client;
+    private $requestOptions = [];
 
     public function __construct(string $baseUri = null)
     {
@@ -44,6 +45,10 @@ class HttpClientService
         
         // Initialize the client with the handler option
         $this->client = new Client(['handler' => $stack]);
+    }
+
+    public function setRequestOptions(array $options){
+        $this->requestOptions = $options;
     }
 
     public function GET(string $url): array
@@ -82,10 +87,16 @@ class HttpClientService
         }
     }
 
-    private function request(string $method, string $endpoint, $options = ['verify' => false]): object
+    private function request(string $method, string $endpoint, array $options = []): object
     {
+        // Allow the options to be overriden
+        if(is_array($options) && !empty($options)){
+            $this->requestOptions = $options;
+        }
+
+        // Send the actual request
         $request = new Request($method, $endpoint);
-        return $this->client->sendAsync($request, $options)
+        return $this->client->sendAsync($request, $this->requestOptions)
             ->then(static function (ResponseInterface $res): object {
                 return $res;
             }, static function (Exception $error) {
