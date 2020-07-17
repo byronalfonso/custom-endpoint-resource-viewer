@@ -41,7 +41,7 @@ class AssetsService implements PluginServiceInterface
     {
         // Make sure that AssetsService intance is instantiated
         if (empty(AssetsService::$instance)) {
-            throw new \Exception("Invalid AssetsService instance.");
+            throw new \Exception("AssetsService is not properly initialized.");
         }
 
         // Make sure that scripts has been passed correctly
@@ -56,9 +56,14 @@ class AssetsService implements PluginServiceInterface
 
     public function enqueueStyles(array $styles)
     {
-        // Make sure that the scripts is not empty and the AssetsService intance is instantiated
-        if (empty($styles) || empty(AssetsService::$instance)) {
-            return;
+        // Make sure that AssetsService intance is instantiated
+        if (empty(AssetsService::$instance)) {
+            throw new \Exception("AssetsService is not properly initialized.");
+        }
+
+        // Make sure that styles has been passed correctly
+        if (empty($styles)) {
+            throw new \Exception("Error: Empty styles passed. Expected array of valid string-formatted styles");
         }
 
         foreach ($styles as $style) {
