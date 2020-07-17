@@ -63,18 +63,15 @@ class CustomEndpointService implements PluginServiceInterface
     public function renderEndpointTemplate()
     {
         $this->loadAssets();        
-        $resource = $this->loadResource();
+        $resource = $this->loadResource('/users');
 
         if ($resource['hasErrors']) {
-            $error = $resource;
-            require_once TemplateManager::pluginTemplate('error.php');
+            $this->loadTemplate('error.php', $resource);
             return;
         }
 
-        $templateResource = [
-            'title' => 'Users', 'data' => $resource['data'],
-        ];
-        require_once TemplateManager::pluginTemplate('custom.php');
+        $templateResource = ['title' => 'Users', 'data' => $resource['data']];
+        $this->loadTemplate('custom.php', $templateResource, $resource);
     }
 
     public function loadAssets(){
@@ -83,9 +80,14 @@ class CustomEndpointService implements PluginServiceInterface
         $assets->enqueueStyles(['cerv-resource-style', 'cerv-modal-style']);
     }
 
-    public function loadResource(string $resource = '/users'): array{
+    public function loadResource(string $resource = ''): array{
         $resourceService = new ResourceService();
         return $resourceService->fetchResource($resource);
+    }
+
+    public function loadTemplate(string $template, $data){
+        $templateResource = $data; // $templateResource is used in the template to render things
+        require_once TemplateManager::pluginTemplate($template);
     }
 
     public function exit(string $message="")

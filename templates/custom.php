@@ -1,6 +1,6 @@
 <?php get_header() ?>
 
-<?php if ( !empty($resource) ) : ?>
+<?php if ( !empty($templateResource) ) : ?>
 
 <div class="cerv-container">
     <?php include_once  plugin_dir_path( __FILE__ ) . 'partials/modal.php'; ?>
@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody role="rowgroup">
-        <?php foreach ($resource['data'] as $value) { ?>
+        <?php foreach ($templateResource['data'] as $value) { ?>
             <tr role="row">
             <td role="cell" class="user-id">
                 <a href="#" class="user-details-link" data-user-id="<?php echo $value['id'] ?>">

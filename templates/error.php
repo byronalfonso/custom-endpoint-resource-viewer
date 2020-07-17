@@ -1,6 +1,6 @@
 <?php get_header() ?>
 
-<?php if ( !empty($error) ) : ?>
+<?php if ( !empty($templateResource) ) : ?>
 
 <div class="cerv-container">
     <div class="cerv-error">
