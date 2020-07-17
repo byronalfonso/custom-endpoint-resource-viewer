@@ -12,16 +12,20 @@ class AssetsService implements PluginServiceInterface
     private static $instance;
     public function initialize()
     {
-        add_action('init', [$this, 'register']);
+        add_action('init', [$this, 'registerAssets']);
+        $this->instantiate();
     }
 
-    public function register()
+    /**
+     * Registers all the styles and scripts and localizes them
+     *
+     * @return void
+     */
+    public function registerAssets()
     {
-
         $this->registerStyles();
         $this->registerScripts();
         $this->localizeScripts();
-        $this->instantiate();
     }
 
     public static function instance(): AssetsService
