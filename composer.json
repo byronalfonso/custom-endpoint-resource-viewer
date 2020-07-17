@@ -1,0 +1,25 @@
+{
+    "name": "root/custom-endpoint-resource-viewer",
+    "description": "A Wordpress plugin that generates a custom endpoint that allows a user to view a resource from an external API on that endpoint.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Byron Alfonso",
+            "email": "maximuz313@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "^7.1@dev",
+        "kevinrob/guzzle-cache-middleware": "dev-master",
+        "doctrine/cache": "^1.11@dev"
+    },
+    "autoload": {
+        "psr-4": {"Includes\\": "includes/"}
+    },
+    "require-dev": {
+        "inpsyde/php-coding-standards": "^1.0@dev",
+        "phpunit/phpunit": "8.5.x-dev",
+        "brain/monkey": "^2.0@dev"
+    }
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/phpunit/bootstrap.php" colors="true" verbose="true">
+	<testsuites>
+		<testsuite name="CERV Test Suit">
+			<directory>./tests/phpunit</directory>
+		</testsuite>
+	</testsuites>	
+</phpunit>
