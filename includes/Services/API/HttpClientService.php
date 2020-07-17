@@ -20,6 +20,7 @@ class HttpClientService
     private $baseUri;
     private $client;
     private $requestOptions = [];
+    private static $devMode = false;
 
     public function __construct(string $baseUri = null)
     {
@@ -79,6 +80,10 @@ class HttpClientService
         // In theory this class should support other REST operations
     }
 
+    public static function setDevMode(bool $mode = false){
+        self::$devMode = $mode;
+    }
+
     private function validateUrl(string $url)
     {
 
@@ -92,6 +97,11 @@ class HttpClientService
         // Allow the options to be overriden
         if(is_array($options) && !empty($options)){
             $this->requestOptions = $options;
+        }
+
+        // Disable SSL verification if set to true; Note: Currently used to bypass SSL error in testing
+        if(self::$devMode){
+            $this->requestOptions = array_merge($this->requestOptions, ['verify' => false]);
         }
 
         // Send the actual request
