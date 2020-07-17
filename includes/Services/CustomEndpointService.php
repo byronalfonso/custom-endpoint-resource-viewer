@@ -71,7 +71,7 @@ class CustomEndpointService implements PluginServiceInterface
         }
 
         $templateResource = ['title' => 'Users', 'data' => $resource['data']];
-        $this->loadTemplate('custom.php', $templateResource, $resource);
+        $this->loadTemplate('custom.php', $templateResource);
     }
 
     public function loadAssets(){

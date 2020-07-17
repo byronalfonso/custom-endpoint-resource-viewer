@@ -83,21 +83,59 @@ class CustomEndpointServiceTest extends \CERVTestCase {
         $ceService->shouldReceive('loadAssets')->once();
 
         // Should load resources
+        $fakeResource = [
+            "status" => "success", 
+            "data" => [],
+            "hasErrors" => false
+        ];
         $ceService->shouldReceive('loadResource')
             ->once()
             ->with('/users')
             ->andReturn(
-                [
-                    "status" => "success", 
-                    "data" => [],
-                    "hasErrors" => false
-                ]
+                $fakeResource
             );
 
         // Should load template
         $templateName = 'custom.php';
+        $templateResource = ['title' => 'Users', 'data' => $fakeResource['data']];
         $ceService->shouldReceive('loadTemplate')
             ->once()
+            ->with($templateName, $templateResource)
+            ->andReturn(Config::get('pluginTemplatePath') . $templateName);
+
+        HttpClientService::setDevMode(true); // Used only to bypass an SSL error in testing
+        $ceService->renderEndpointTemplate();
+    }
+
+    public function test_renderEndpointTemplate_renders_the_custom_template_if_resource_has_errors(){
+        Config::init();
+        Functions\when( 'wp_enqueue_script' )->justReturn(true);
+        Functions\when( 'wp_enqueue_style' )->justReturn(true);
+
+        $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
+
+        // Should load assets
+        $ceService->shouldReceive('loadAssets')->once();
+
+        // Should load resources
+        $fakeErrorResource = [
+            "status" => "error", 
+            "error" => "Error loading resource",
+            "hasErrors" => true
+        ];
+
+        $ceService->shouldReceive('loadResource')
+            ->once()
+            ->with('/users')
+            ->andReturn(
+                $fakeErrorResource
+            );
+
+        // Should load error template
+        $templateName = 'error.php';
+        $ceService->shouldReceive('loadTemplate')
+            ->once()
+            ->with($templateName, $fakeErrorResource)            
             ->andReturn(Config::get('pluginTemplatePath') . $templateName);
 
         HttpClientService::setDevMode(true); // Used only to bypass an SSL error in testing
