@@ -2,6 +2,11 @@
 
 Custom Enpoint Resource Viewer or CERV is a Wordpress plugin developed to generate a custom endpoint and load data from an external resource or API.
 
+## Dependencies
+- [Guzzle](https://github.com/guzzle/guzzle) - used for http request
+- [guzzle-cache-middleware](https://github.com/Kevinrob/guzzle-cache-middleware) - Guzzle middleware for caching
+- [doctrine/cache](https://github.com/doctrine/cache) - http caching mechanism in use
+
 ## Quick Installation:
 
 Note: This guide requires [git](https://git-scm.com/) and [composer](https://getcomposer.org/)
@@ -14,6 +19,20 @@ git clone https://github.com/byronalfonso/custom-endpoint-resource-viewer.git
 
 * `cd` to your plugin directory and run `composer install`
 * Once your plugin and its dependencies are installed, simply activate it from the wp-admin dashboard.
+
+---
+
+## How to use:
+
+Once the plugin is installed, you can simply access `/cerv` on your Wordpress site e.g. `http://yourwordpresssite.com/cerv`. Once in the page, you should be able to see the list of resource (ATM, it's statically set to load users). On the user table, you can click on each of the user's id, name and username and will load the details of the selected user in a modal window.
+
+#### Features
+- Loading of resource. Currently set to display `users` by default.
+- Modal window for resource (`user`) details.
+- Error handling and custom error page in case the resource is not properly loaded.
+- Error handling in the frontend, if for some reason the AJAX fails, the modal window will display an error.
+- Responsive resource list table
+- Http Caching
 
 ---
 
@@ -66,7 +85,7 @@ Note: depends on the following packages.
 I've opted with [Guzzle](http://docs.guzzlephp.org/en/stable/), Simply because it is reliable (I've used it before), easy to setup and (IMHO) trusted by many other developers and frameworks. Also, I feel like I'm going to recreate the wheel if I create my own class that encapsulates a CURL or any built-in mechanism that allows for an http request.
 
 
-With regards to Http caching, I've initially I've thought about creating my own caching mechanism using the [Wordpress Object cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache) or with PHP session. However, since I'm already using Guzzle, I realized that there should be an already existing solution and I wasn't wrong. I found [guzzle-cache-middleware](kevinrob/guzzle-cache-middleware) which has a built-in support for different types of caching mechanism including Wordpress Object cache. Pretty neat right? However, after testing and debugging, I've ended up choosing the [Doctrine Cache](https://github.com/doctrine/cache) instead of the Wordpress Object cache due to the loading speed. While testing, I found Doctrine cache to be significantly faster compare to Wordpress Object cache.
+With regards to Http caching, I've initially I've thought about creating my own caching mechanism using the [Wordpress Object cache](https://codex.wordpress.org/Class_Reference/WP_Object_Cache) or with PHP session. However, since I'm already using Guzzle, I realized that there should be an already existing solution and I wasn't wrong. I found [guzzle-cache-middleware](https://github.com/Kevinrob/guzzle-cache-middleware) which has a built-in support for different types of caching mechanism including Wordpress Object cache. Pretty neat right? However, after testing and debugging, I've ended up choosing the [Doctrine Cache](https://github.com/doctrine/cache) instead of the Wordpress Object cache due to the loading speed. While testing, I found Doctrine cache to be significantly faster compare to Wordpress Object cache.
 
 ---
 
@@ -74,3 +93,21 @@ With regards to Http caching, I've initially I've thought about creating my own 
 
 After reading a couple of resources and this [WP stack exchange article](https://wordpress.stackexchange.com/questions/164121/testing-hooks-callback/164138#164138), I've decided to use [PHPunit](https://github.com/sebastianbergmann/phpunit) along with [Brain Monkey](https://github.com/Brain-WP/BrainMonkey). After learning more about the experts opinion on "unit" testing and about Brain Monkey, it just makes so much sense to use it (Brain Monkey) to "unit" test my plugin (and just for all general theme and plugin development). I'll be honest though, learning Brain Monkey and Mockery (one of its dependencies) has a steep learning curb (IMHO), and takes awhile to get used to but you know what? It's well worth it :)
 
+#### Code coverage:
+- To my **rough estimate**, the unit testing covers around 60-70% of the code base and is currently targetting the most important parts of the code which is the main plugin class and the plugin services.
+
+---
+
+## Roadmap:
+
+The following are **optional** features that I planned add in the very near future.
+
+- Add the custom endpoint link on the plugin description
+- Settings Page
+    - Ability to change the custom endpoint (statically set to `/cerv` ATM)
+    - Ability to override the custom endpoint via hooks.
+    - Dynamic setting of resource (set to load `users` ATM)
+    - Dynamic 3rd party API
+    - Themes
+- Ability to override the custom template in the theme.    
+- Ability to display resource through shortcodes.
