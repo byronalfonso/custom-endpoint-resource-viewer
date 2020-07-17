@@ -51,4 +51,34 @@ class AssetsServiceTest extends \CERVTestCase {
 
         $assetsService->enqueueStyles($testStyles);
     }
+
+    public function test_enqueueScripts_throw_error_for_empty_scripts(){
+        $assetsService = \Mockery::mock( AssetsService::class )->makePartial();
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Error: Empty scripts passed. Expected array of valid string-formatted scripts");
+
+        $assetsService->enqueueScripts([]);
+    }
+
+    public function test_enqueueStyles_throw_error_for_empty_styles(){
+        $assetsService = \Mockery::mock( AssetsService::class )->makePartial();
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Error: Empty styles passed. Expected array of valid string-formatted styles");
+
+        $assetsService->enqueueStyles([]);
+    }
+
+    public function test_enqueueScripts_throw_error_when_not_given_an_array(){
+        $assetsService = \Mockery::mock( AssetsService::class )->makePartial();
+        $this->expectException(\TypeError::class);        
+        $assetsService->enqueueScripts('not_an_array');
+    }
+
+    public function test_enqueueStyles_throw_error_when_not_given_an_array(){
+        $assetsService = \Mockery::mock( AssetsService::class )->makePartial();
+        $this->expectException(\TypeError::class);        
+        $assetsService->enqueueStyles('not_an_array');
+    }
 }
