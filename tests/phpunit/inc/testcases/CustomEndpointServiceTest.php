@@ -1,11 +1,9 @@
 <?php
 
-use \Includes\CERV;
 use \Includes\Config;
 use \Brain\Monkey\Functions;
 use \Brain\Monkey\Actions;
 use \Includes\Services\CustomEndpointService;
-use \Includes\Services\API\ResourceService;
 use \Includes\Services\API\HttpClientService;
 
 class CustomEndpointServiceTest extends \CERVTestCase {
@@ -143,4 +141,3 @@ class CustomEndpointServiceTest extends \CERVTestCase {
     }
     
 }
-

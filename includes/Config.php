@@ -6,7 +6,7 @@ namespace Includes;
 
 final class Config
 {
-    private static $config;
+    private static $config = [];
 
     /**
      * Initialize all plugin-wide config and vars
@@ -40,5 +40,14 @@ final class Config
         }
 
         return self::$config[$key];
+    }
+
+    /**
+     * Gets the all config
+     * @return array $config
+     */
+    public static function getAll(): array
+    {
+        return self::$config;
     }
 }
