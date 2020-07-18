@@ -24,9 +24,8 @@ class SettingsService implements PluginServiceInterface
     {
         
         foreach ($this->settings as $class) {
-
             // Add the page only if it hasn't been added yet
-            if (in_array($class, self::$addedSettings)) {
+            if (in_array($class, self::$addedSettings, true)) {
                 continue;
             }
 
@@ -52,7 +51,7 @@ class SettingsService implements PluginServiceInterface
         ];
     }
 
-    private function register($settingOptions)
+    private function register(array $settingOptions)
     {
 
         foreach ($settingOptions as $setting) {
@@ -60,7 +59,7 @@ class SettingsService implements PluginServiceInterface
         }
     }
 
-    private function registerSections($sections)
+    private function registerSections(array $sections)
     {
 
         foreach ($sections as $section) {
@@ -68,11 +67,18 @@ class SettingsService implements PluginServiceInterface
         }
     }
 
-    private function registerFields($settingFields)
+    private function registerFields(array $settingFields)
     {
 
         foreach ($settingFields as $field) {
-            add_settings_field($field["id"], $field["title"], ( isset($field["callback"]) ? $field["callback"] : '' ), $field["page"], $field["section"], ( isset($field["args"]) ? $field["args"] : '' ));
+            add_settings_field(
+                $field["id"],
+                $field["title"],
+                ( isset($field["callback"]) ? $field["callback"] : '' ),
+                $field["page"],
+                $field["section"],
+                ( isset($field["args"]) ? $field["args"] : '' )
+            );
         }
     }
 }

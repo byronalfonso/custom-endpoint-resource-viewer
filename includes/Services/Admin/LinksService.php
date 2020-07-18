@@ -22,7 +22,7 @@ class LinksService implements PluginServiceInterface
      * Registers all my custom /wp-admins/plugins.php page links to WordPress
      * @return void
      */
-    public function registerLinks($originalLinks)
+    public function registerLinks(array $originalLinks): array
     {
         
         foreach ($this->links as $link) {

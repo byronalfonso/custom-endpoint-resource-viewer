@@ -10,7 +10,7 @@ use Includes\Interfaces\PluginServiceInterface;
 
 class MenuPageService implements PluginServiceInterface
 {
-    public static $addedMenuPages = [];
+    private static $addedMenuPages = [];
     private $pages = [];
 
     public function initialize()
@@ -23,7 +23,7 @@ class MenuPageService implements PluginServiceInterface
      * Gets all the the classnames for all added pages
      * @return array self::$addedMenuPages
      */
-    public static function getAddedMenuPages(): array
+    public static function addedMenuPages(): array
     {
         return self::$addedMenuPages;
     }
@@ -37,7 +37,7 @@ class MenuPageService implements PluginServiceInterface
     {
         foreach ($this->getPages() as $class) {
             // Add the page only if it hasn't been added yet
-            if (in_array($class, self::$addedMenuPages)) {
+            if (in_array($class, self::$addedMenuPages, true)) {
                 continue;
             }
 
@@ -61,7 +61,7 @@ class MenuPageService implements PluginServiceInterface
         ];
     }
 
-    private function getPages()
+    private function getPages(): array
     {
 
         return $this->pages;

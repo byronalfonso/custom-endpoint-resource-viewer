@@ -38,7 +38,7 @@ class Settings implements PageInterface
         ];
     }
 
-    public function settingsPage(): string
+    public function settingsPage(): int
     {
         /*
             Nonce action key will be used to block illegal
