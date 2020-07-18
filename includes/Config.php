@@ -24,7 +24,7 @@ final class Config
             'themeTemplatePath' => get_template_directory() . 'templates/',
             'pluginAssetsUrl' => $baseUrl . 'assets/',
             'defaultEndpoint' => 'cerv',
-            'defaultAPIEnpoint' => 'https://jsonplaceholder.typicode.com',
+            'defaultAPIEnpoint' => 'https://jsonplaceholder.typicode.com/',
             'cacheExpiration' => '60', //in seconds
         ];
     }
