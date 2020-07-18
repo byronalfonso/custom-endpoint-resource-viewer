@@ -17,17 +17,17 @@ interface SettingInterface
      * Returns the options for the settings
      *
      */
-    public function getOptions();
+    public function options();
 
     /**
      * Returns the options for the settings
      *
      */
-    public function getSections();
+    public function sections();
 
     /**
      * Returns the options for the settings
      *
      */
-    public function getFields();
+    public function fields();
 }

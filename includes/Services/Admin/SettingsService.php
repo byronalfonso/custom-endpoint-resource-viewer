@@ -9,6 +9,7 @@ use Includes\Interfaces\PluginServiceInterface;
 
 class SettingsService implements PluginServiceInterface
 {
+    private static $addedSettings = [];
     private $settings = [];
 
     public function initialize()
@@ -23,11 +24,23 @@ class SettingsService implements PluginServiceInterface
     {
         
         foreach ($this->settings as $class) {
+
+            // Add the page only if it hasn't been added yet
+            if (in_array($class, self::$addedSettings)) {
+                continue;
+            }
+
+            // Throw an error if the page is not an instance of SettingInterface
+            if (!is_subclass_of($class, 'Includes\Interfaces\SettingInterface')) {
+                throw new \Exception("Invalid setting initialization. " . $class . " must be an instance of the SettingInterface.");
+            }
+
             $setting = new $class();
             $setting->initSettings();
-            $this->register($setting->getOptions());
-            $this->registerSections($setting->getSections());
-            $this->registerFields($setting->getFields());
+            $this->register($setting->options());
+            $this->registerSections($setting->sections());
+            $this->registerFields($setting->fields());
+            array_push(self::$addedSettings, $class);
         }
     }
 

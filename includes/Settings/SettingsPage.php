@@ -22,19 +22,19 @@ class SettingsPage implements SettingInterface
         $this->setFields();
     }
 
-    public function getOptions()
+    public function options()
     {
 
         return $this->options;
     }
 
-    public function getSections()
+    public function sections()
     {
 
         return $this->sections;
     }
 
-    public function getFields()
+    public function fields()
     {
 
         return $this->fields;
