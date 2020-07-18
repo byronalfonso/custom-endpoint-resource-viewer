@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Tests\Inc\Testcases;
+
 use Includes\Config;
 use Brain\Monkey\Functions;
 use Brain\Monkey\Actions;
@@ -9,7 +13,7 @@ use Includes\Services\API\HttpClientService;
 class CustomEndpointServiceTest extends \CERVTestCase
 {
 
-    public function test_initialize_add_actions()
+    public function testInitializeAddActions()
     {
 
         Config::init();
@@ -24,7 +28,7 @@ class CustomEndpointServiceTest extends \CERVTestCase
         self::assertTrue(has_action('template_redirect', '\Includes\Services\CustomEndpointService->overrideTemplate()'));
     }
 
-    public function test_customRewriteTag_adds_the_correct_tag()
+    public function testCustomRewriteTagAddsTheCorrectTag()
     {
 
         Config::init();
@@ -36,7 +40,7 @@ class CustomEndpointServiceTest extends \CERVTestCase
         ( new CustomEndpointService() )->customRewriteTag();
     }
 
-    public function test_customEnpointRewriteRule_add_the_correct_rule()
+    public function testCustomEnpointRewriteRuleAddTheCorrectRule()
     {
 
         Config::init();
@@ -57,7 +61,7 @@ class CustomEndpointServiceTest extends \CERVTestCase
     }
     
 
-    public function test_overrideTemplate_render_the_endpoint_template_if_query_var_is_detected()
+    public function testOverrideTemplateRenderTheEndpointTemplateIfQueryVarIsDetected()
     {
 
         Functions\expect('get_query_var')
@@ -78,7 +82,7 @@ class CustomEndpointServiceTest extends \CERVTestCase
         $ceService->overrideTemplate();
     }
 
-    public function test_renderEndpointTemplate_renders_the_custom_template_if_resource_has_no_error()
+    public function testRenderEndpointTemplateRendersTheCustomTemplateIfResourceHasNoError()
     {
 
         Config::init();
@@ -115,7 +119,7 @@ class CustomEndpointServiceTest extends \CERVTestCase
         $ceService->renderEndpointTemplate();
     }
 
-    public function test_renderEndpointTemplate_renders_the_error_template_if_resource_has_errors()
+    public function testRenderEndpointTemplateRendersTheErrorTemplateIfResourceHasErrors()
     {
 
         Config::init();

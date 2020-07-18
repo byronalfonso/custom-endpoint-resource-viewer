@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Tests\Inc\Testcases;
+
 use Includes\Config;
 use Brain\Monkey\Functions;
 
 class ConfigTest extends \CERVTestCase
 {
 
-    public function test_init_initializes_the_config()
+    public function testInitInitializesTheConfig()
     {
 
         Config::init();
@@ -17,7 +21,7 @@ class ConfigTest extends \CERVTestCase
     }
 
     
-    public function test_get_returns_correct_values_for_existing_and_valid_config_keys()
+    public function testGetReturnsCorrectValuesForExistingAndValidConfigKeys()
     {
 
         Config::init();
@@ -28,7 +32,7 @@ class ConfigTest extends \CERVTestCase
         $this->assertEquals($this->dummyTemplateDir . 'templates/', Config::get('themeTemplatePath'));
     }
 
-    public function test_get_throws_error_for_invalid_config_keys()
+    public function testGetThrowsErrorForInvalidConfigKeys()
     {
 
         Config::init();
@@ -40,7 +44,7 @@ class ConfigTest extends \CERVTestCase
         Config::get('invalid');
     }
 
-    public function test_getAll_returns_all_config()
+    public function testGetAllReturnsAllConfig()
     {
 
         Config::init();
