@@ -19,7 +19,8 @@ final class CERV
     {
         Config::init();
         self::initializeServices([
-            Services\AssetsService::class,            
+            Services\AssetsService::class,
+            Services\Admin\LinksService::class,    
             Services\CustomEndpointService::class,
             Services\Admin\MenuPageService::class,
         ]);
