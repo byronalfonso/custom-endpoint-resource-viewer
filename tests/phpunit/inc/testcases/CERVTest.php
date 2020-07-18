@@ -9,16 +9,16 @@ class CERVTest extends \CERVTestCase {
 
     public function test_run_initializes_the_plugin_services(){        
         // Initialized services should be none before running the CERV plugin.
-        $this->assertEquals( 0, count( CERV::getInitializedServices() ) );
+        $this->assertEquals( 0, count( CERV::initializedServices() ) );
         
         // Run the plugin
         CERV::run();
 
         // After running the plugin, the initialized services should be 2 (2 are currently statically set inside CERV class)
-        $this->assertEquals( 5, count( CERV::getInitializedServices() ) );
+        $this->assertEquals( 5, count( CERV::initializedServices() ) );
 
         // Make sure that the initialized plugin services are correct
-        $pluginServices = CERV::getInitializedServices();        
+        $pluginServices = CERV::initializedServices();        
         $this->assertEquals( in_array(Includes\Services\AssetsService::class, $pluginServices), true );
         $this->assertEquals( in_array(Includes\Services\Admin\LinksService::class, $pluginServices), true );
         $this->assertEquals( in_array(Includes\Services\CustomEndpointService::class, $pluginServices), true );
@@ -63,7 +63,7 @@ class CERVTest extends \CERVTestCase {
         CERV::run();
         
         // There should be 5 initialized plugin service
-        $this->assertEquals( 5, count( CERV::getInitializedServices() ) );
+        $this->assertEquals( 5, count( CERV::initializedServices() ) );
         
         // Initialized the same services
         CERV::initializeServices([            
@@ -72,7 +72,7 @@ class CERVTest extends \CERVTestCase {
         ]);
 
         // Initialized services should be the same
-        $this->assertEquals( 5, count( CERV::getInitializedServices() ) );
+        $this->assertEquals( 5, count( CERV::initializedServices() ) );
     }
 }
 
