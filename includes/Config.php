@@ -15,9 +15,12 @@ final class Config
     public static function init()
     {
 
-        $basePath = plugin_dir_path(dirname(__FILE__));
-        $baseUrl = plugin_dir_url(dirname(__FILE__));
+        $basePath = plugin_dir_path( dirname(__FILE__) );
+        $baseUrl = plugin_dir_url( dirname(__FILE__) );        
+        $pluginName = plugin_basename( dirname( __FILE__, 2 ) ) . '/custom-endpoint-resource-viewer.php';
+        
         self::$config = [
+            'pluginName' => $pluginName,
             'pluginPath' => $basePath,
             'pluginUrl' => $baseUrl,
             'pluginTemplatePath' => $basePath . 'templates/',
@@ -26,6 +29,7 @@ final class Config
             'defaultEndpoint' => 'cerv',
             'defaultAPIEnpoint' => 'https://jsonplaceholder.typicode.com',
             'cacheExpiration' => '60', //in seconds
+            'settingsNonceKey' => 'settings_page_nonce'
         ];
     }
     

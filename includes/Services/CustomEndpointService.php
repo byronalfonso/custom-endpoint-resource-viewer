@@ -63,7 +63,7 @@ class CustomEndpointService implements PluginServiceInterface
     public function renderEndpointTemplate()
     {
         $this->loadAssets();        
-        $resource = $this->loadResource('/users');
+        $resource = $this->loadResource('users');
 
         if ($resource['hasErrors']) {
             $this->loadTemplate('error.php', $resource);
