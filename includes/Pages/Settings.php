@@ -12,15 +12,21 @@ class Settings implements PageInterface
 {
     private $options = [];
 
-    public function getOptions(){
+    public function options(): array
+    {
+
         return $this->options;
     }
 
-    public function initPage(){
+    public function initPage()
+    {
+
         $this->setOptions();
     }
 
-    private function setOptions(){
+    private function setOptions()
+    {
+
         $this->options = [
             "page_title" => "Settings",
             "menu_title" => "CERV Settings",
@@ -28,15 +34,16 @@ class Settings implements PageInterface
             "menu_slug" => "cerv_settings",
             "callback" => [$this, 'settingsPage'],
             "icon_url" => "dashicons-admin-generic",
-            "position" => 200
+            "position" => 200,
         ];
     }
 
-    public function settingsPage(){
+    public function settingsPage(): int
+    {
         /*
-            Nonce action key will be used to block illegal 
+            Nonce action key will be used to block illegal
             access to the settings.php and will be used to verify wp_nonce
-        */ 
+        */
         $nonceActionKey = Config::get('settingsNonceKey');
         return require_once TemplateManager::pluginTemplate('settings.php');
     }

@@ -15,7 +15,10 @@
         "doctrine/cache": "^1.11@dev"
     },
     "autoload": {
-        "psr-4": {"Includes\\": "includes/"}
+        "psr-4": {
+            "Includes\\": "includes/",
+            "Tests\\": "tests/phpunit/"
+        }
     },
     "require-dev": {
         "inpsyde/php-coding-standards": "^1.0@dev",

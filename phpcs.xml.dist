@@ -4,7 +4,9 @@
     <description>CERV coding standard.</description>
 
     <file>./custom-endpoint-resource-viewer.php</file>
+    <file>./bootstrap.php</file>
     <file>./includes</file>
+    <file>./tests/phpunit</file>
 
     <arg value="sp"/>
     <arg name="colors"/>
@@ -21,7 +23,7 @@
             <property
                 name="psr4"
                 type="array"
-                value="Includes=>includes,Inpsyde\MyProject\Tests=>tests/src|tests/unit"/>
+                value="Includes=>includes,Tests=>tests/src|tests/phpunit"/>
         </properties>
     </rule>
     

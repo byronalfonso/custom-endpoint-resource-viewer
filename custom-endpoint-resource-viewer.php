@@ -13,14 +13,19 @@ Version: 1.0.0
 */
 
 defined('ABSPATH') || exit;
-/*
-  - Add a bootstrap file
- - Add a config file or class
-   - Setup the main plugin file
-   - Setup/Prepare Services and Managers
-*/
 
 require_once dirname(__FILE__) . '/bootstrap.php';
+
+// Setup activation hook
+register_activation_hook(__FILE__, static function () {
+    flush_rewrite_rules();
+});
+
+// Setup deactivation hook
+register_deactivation_hook(__FILE__, static function () {
+    flush_rewrite_rules();
+});
+
 /**
  * Initialize and run the plugin
  */

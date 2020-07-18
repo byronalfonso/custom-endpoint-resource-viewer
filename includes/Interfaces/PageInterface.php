@@ -17,5 +17,5 @@ interface PageInterface
      * Returns the options for the page
      *
      */
-    public function getOptions();
+    public function options();
 }
