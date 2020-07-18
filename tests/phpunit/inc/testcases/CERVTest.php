@@ -60,7 +60,9 @@ class CERVTest extends CERVTestCase
         CERV::run();
         
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Invalid service initialization. Includes\Services\API\ResourceService must be an instance of the PluginServiceInterface.");
+        $this->expectExceptionMessage(
+            "Invalid service initialization. Includes\Services\API\ResourceService must be an instance of the PluginServiceInterface."
+        );
 
         // ResourceService is not an instance of the PluginServiceInterface, thus the function should throw an error
         CERV::initializeServices([
