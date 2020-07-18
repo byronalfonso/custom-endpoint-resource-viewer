@@ -65,7 +65,15 @@ class AssetsService implements PluginServiceInterface
             throw new \Exception("Error: Empty scripts passed. Expected array of valid string-formatted scripts");
         }
 
+        $allowedScripts = ['cerv-resource-list'];
+
         foreach ($scripts as $script) {
+
+            // Make sure that script is allowed and registered
+            if ( !in_array($script, $allowedScripts) ) {
+                throw new \Exception("Error: You are trying to enqueue a script that is not registered in the AssetsService.");
+            }
+
             wp_enqueue_script($script);
         }
     }
@@ -87,11 +95,19 @@ class AssetsService implements PluginServiceInterface
             throw new \Exception("Error: Empty styles passed. Expected array of valid string-formatted styles");
         }
 
+        $allowedStyles = ['cerv-resource-style', 'cerv-modal-style'];
+
         foreach ($styles as $style) {
+
+            // Make sure that style is allowed and registered
+            if ( !in_array($style, $allowedStyles) ) {
+                throw new \Exception("Error: You are trying to enqueue a style that is not registered in the AssetsService.");
+            }
+
             wp_enqueue_style($style);
         }
     }
-
+    
     /**
      * Creates instance of the AssetsService (singleton)
      *
