@@ -18,8 +18,11 @@ class LinksService implements PluginServiceInterface
         add_filter( "plugin_action_links_$pluginName", array( $this, 'registerLinks' ) );
     }
 
-    public function registerLinks($originalLinks){
-        
+    /**
+     * Registers all my custom /wp-admins/plugins.php page links to wordpress
+     * @return void
+     */
+    public function registerLinks($originalLinks){        
         foreach ($this->links as $link) {
             array_push( $originalLinks, $link );
         }
@@ -27,6 +30,10 @@ class LinksService implements PluginServiceInterface
 		return $originalLinks;
     }
 
+    /**
+     * This is where all the links under the plugin name (on /wp-admins/plugins.php page) are set
+     * @return void
+     */
     private function setLinks(){
         $this->links = [
             '<a href="admin.php?page=cerv_settings">Settings</a>',

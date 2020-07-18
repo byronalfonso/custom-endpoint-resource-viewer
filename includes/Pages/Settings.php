@@ -31,7 +31,7 @@ class Settings implements PageInterface
             "position" => 200
         ];
     }
-
+    
     public function settingsPage(){
         return require_once TemplateManager::pluginTemplate('settings.php');
     }
