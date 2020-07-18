@@ -29,6 +29,7 @@ final class Config
             'defaultEndpoint' => 'cerv',
             'defaultAPIEnpoint' => 'https://jsonplaceholder.typicode.com',
             'cacheExpiration' => '60', //in seconds
+            'settingsNonceKey' => 'settings_page_nonce'
         ];
     }
     

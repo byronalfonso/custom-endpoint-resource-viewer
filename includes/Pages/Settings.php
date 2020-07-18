@@ -31,8 +31,12 @@ class Settings implements PageInterface
             "position" => 200
         ];
     }
-    
+
     public function settingsPage(){
+        /*
+            Nonce action key will be used to block illegal access to the settings.php and will be used to verify wp_nonce
+        */ 
+        $nonceActionKey = Config::get('settingsNonceKey');
         return require_once TemplateManager::pluginTemplate('settings.php');
     }
 }

@@ -13,6 +13,12 @@ class SettingsPage
     private $sections = [];
     private $fields = [];
 
+    public function initSettings(){
+        $this->setOptions();
+        $this->setSections();
+        $this->setFields();
+    }
+
     public function getOptions(){
         return $this->options;
     }
@@ -25,17 +31,12 @@ class SettingsPage
         return $this->fields;
     }
 
-    public function initSettings(){
-        $this->setOptions();
-        $this->setSections();
-        $this->setFields();
-    }
-
     private function setOptions(){
         $this->options = array(
 			array(
 				'option_group' => 'cerv_settings_group',
-				'option_name' => 'resource_select'
+                'option_name' => 'resource_select',
+                'callback' => array( $this, 'validateResourceSelect')
 			)
         );
     }
@@ -93,5 +94,27 @@ class SettingsPage
 	{
         $optionValue = esc_attr( get_option( 'resource_select' ) );
         require_once TemplateManager::pluginTemplate('fields/admin-resource-select.php');
-	}
+    }
+    
+    public function validateResourceSelect($input){
+        $field = 'resource_select';
+        $oldValue = get_option( $field );
+        $newValue = $input;
+        $nonceActionKey = Config::get('settingsNonceKey');        
+        $isValidNonce = ( isset( $_POST['cerv_settings_form_nonce'] ) && wp_verify_nonce( $_POST['cerv_settings_form_nonce'], $nonceActionKey ) ) ? true : false;
+
+        // Validate nonce
+        if (!$isValidNonce) {
+            $input = $oldValue;
+            add_settings_error('cerv_settings_group', 'invalid_settings_nonce_key', __('Illegal operation detected. Please use a valid nonce key.', 'wpse'), 'error');
+        }
+
+        // Validate input
+        if ($newValue!=='users') {
+            $input = $oldValue;
+            add_settings_error('cerv_settings_group', 'invalid_resource_key', __('Invalid resource', 'wpse'), 'error');
+        }
+
+        return $input;
+    }
 }
