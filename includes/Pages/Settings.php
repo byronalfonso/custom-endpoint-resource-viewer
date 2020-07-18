@@ -12,7 +12,7 @@ class Settings implements PageInterface
 {
     private $options = [];
 
-    public function options()
+    public function options(): array
     {
 
         return $this->options;
@@ -38,7 +38,7 @@ class Settings implements PageInterface
         ];
     }
 
-    public function settingsPage()
+    public function settingsPage(): string
     {
         /*
             Nonce action key will be used to block illegal
