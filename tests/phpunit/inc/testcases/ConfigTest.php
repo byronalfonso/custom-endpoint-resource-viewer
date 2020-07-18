@@ -9,7 +9,7 @@ class ConfigTest extends \CERVTestCase {
         Config::init();
 
         // The config should have items in it after init
-        $config = Config::getAll();
+        $config = Config::all();
         $this->assertTrue( count( $config ) > 0 );
     }
     
@@ -49,11 +49,7 @@ class ConfigTest extends \CERVTestCase {
             'settingsNonceKey'
         ];
 
-        $config = Config::getAll();
-
-
-        // print_r($config);
-        // die;
+        $config = Config::all();
 
         // All valid keys must be present from the returned config
         foreach ($validKeys as $key) {
