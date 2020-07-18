@@ -10,11 +10,22 @@ use Includes\Interfaces\PluginServiceInterface;
 
 class MenuPageService implements PluginServiceInterface
 {
+    public static $addedMenuPages = [];
     private $pages = [];
+
     public function initialize()
     {
         $this->setPages();
         add_action('admin_menu', [$this, 'registerMenuPages']);
+    }
+
+    /**
+     * Gets all the the classnames for all added pages
+     * @return array self::$addedMenuPages
+     */
+    public static function getAddedMenuPages(): array
+    {
+        return self::$addedMenuPages;
     }
     
     /**
@@ -25,9 +36,20 @@ class MenuPageService implements PluginServiceInterface
     public function registerMenuPages()
     {
        foreach($this->getPages() as $class){
-           $page = new $class();
-           $this->initializePage($page);
-           $this->addMenuPage($page->getOptions());
+            // Add the page only if it hasn't been added yet
+            if( in_array($class, self::$addedMenuPages) ){
+                continue;
+            }
+
+            // Throw an error if the page is not an instance of PageInterface
+            if ( !is_subclass_of($class, 'Includes\Interfaces\PageInterface') ) {
+                throw new \Exception("Invalid page initialization. " . $class . " must be an instance of the PageInterface.");
+            }
+
+            $page = new $class();
+            $this->initializePage($page);
+            $this->addMenuPage($page->getOptions());
+            array_push(self::$addedMenuPages, $class);
        }
     }
 
@@ -55,5 +77,5 @@ class MenuPageService implements PluginServiceInterface
             $pageOptions['icon_url'],
             $pageOptions['position']
         );
-    }    
+    }
 }

@@ -32,7 +32,7 @@ class Settings implements PageInterface
         ];
     }
 
-    private function settingsPage(){
+    public function settingsPage(){
         return require_once TemplateManager::pluginTemplate('settings.php');
     }
 }
