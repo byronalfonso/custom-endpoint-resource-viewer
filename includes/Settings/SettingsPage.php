@@ -6,8 +6,9 @@ namespace Includes\Settings;
 
 use Includes\Config;
 use Includes\Managers\TemplateManager;
+use Includes\Interfaces\SettingInterface;
 
-class SettingsPage
+class SettingsPage implements SettingInterface
 {
     private $options = [];
     private $sections = [];
