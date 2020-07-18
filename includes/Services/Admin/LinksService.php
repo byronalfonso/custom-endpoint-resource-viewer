@@ -15,26 +15,30 @@ class LinksService implements PluginServiceInterface
     {
         $this->setLinks();
         $pluginName = Config::get('pluginName');
-        add_filter( "plugin_action_links_$pluginName", array( $this, 'registerLinks' ) );
+        add_filter("plugin_action_links_$pluginName", [ $this, 'registerLinks' ]);
     }
 
     /**
-     * Registers all my custom /wp-admins/plugins.php page links to wordpress
+     * Registers all my custom /wp-admins/plugins.php page links to WordPress
      * @return void
      */
-    public function registerLinks($originalLinks){        
+    public function registerLinks($originalLinks)
+    {
+        
         foreach ($this->links as $link) {
-            array_push( $originalLinks, $link );
+            array_push($originalLinks, $link);
         }
-		
-		return $originalLinks;
+        
+        return $originalLinks;
     }
 
     /**
      * This is where all the links under the plugin name (on /wp-admins/plugins.php page) are set
      * @return void
      */
-    private function setLinks(){
+    private function setLinks()
+    {
+
         $this->links = [
             '<a href="admin.php?page=cerv_settings">Settings</a>',
             '<a href="/' . Config::get('defaultEndpoint') . '">Go to the resource page</a>',

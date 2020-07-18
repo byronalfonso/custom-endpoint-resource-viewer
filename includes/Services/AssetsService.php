@@ -68,9 +68,8 @@ class AssetsService implements PluginServiceInterface
         $allowedScripts = ['cerv-resource-list'];
 
         foreach ($scripts as $script) {
-
             // Make sure that script is allowed and registered
-            if ( !in_array($script, $allowedScripts) ) {
+            if (!in_array($script, $allowedScripts)) {
                 throw new \Exception("Error: You are trying to enqueue a script that is not registered in the AssetsService.");
             }
 
@@ -98,9 +97,8 @@ class AssetsService implements PluginServiceInterface
         $allowedStyles = ['cerv-resource-style', 'cerv-modal-style'];
 
         foreach ($styles as $style) {
-
             // Make sure that style is allowed and registered
-            if ( !in_array($style, $allowedStyles) ) {
+            if (!in_array($style, $allowedStyles)) {
                 throw new \Exception("Error: You are trying to enqueue a style that is not registered in the AssetsService.");
             }
 

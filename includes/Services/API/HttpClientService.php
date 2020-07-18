@@ -48,7 +48,9 @@ class HttpClientService
         $this->client = new Client(['handler' => $stack]);
     }
 
-    public function setRequestOptions(array $options){
+    public function setRequestOptions(array $options)
+    {
+
         $this->requestOptions = $options;
     }
 
@@ -80,7 +82,9 @@ class HttpClientService
         // In theory this class should support other REST operations
     }
 
-    public static function setDevMode(bool $mode = false){
+    public static function setDevMode(bool $mode = false)
+    {
+
         self::$devMode = $mode;
     }
 
@@ -95,12 +99,12 @@ class HttpClientService
     private function request(string $method, string $endpoint, array $options = []): object
     {
         // Allow the options to be overriden
-        if(is_array($options) && !empty($options)){
+        if (is_array($options) && !empty($options)) {
             $this->requestOptions = $options;
         }
 
         // Disable SSL verification if set to true; Note: Currently used to bypass SSL error in testing
-        if(self::$devMode){
+        if (self::$devMode) {
             $this->requestOptions = array_merge($this->requestOptions, ['verify' => false]);
         }
 

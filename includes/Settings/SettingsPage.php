@@ -14,95 +14,113 @@ class SettingsPage implements SettingInterface
     private $sections = [];
     private $fields = [];
 
-    public function initSettings(){
+    public function initSettings()
+    {
+
         $this->setOptions();
         $this->setSections();
         $this->setFields();
     }
 
-    public function getOptions(){
+    public function getOptions()
+    {
+
         return $this->options;
     }
 
-    public function getSections(){
+    public function getSections()
+    {
+
         return $this->sections;
     }
 
-    public function getFields(){
+    public function getFields()
+    {
+
         return $this->fields;
     }
 
-    private function setOptions(){
-        $this->options = array(
-			array(
-				'option_group' => 'cerv_settings_group',
+    private function setOptions()
+    {
+
+        $this->options = [
+            [
+                'option_group' => 'cerv_settings_group',
                 'option_name' => 'resource_select',
-                'callback' => array( $this, 'validateResourceSelect')
-			)
-        );
+                'callback' => [ $this, 'validateResourceSelect'],
+            ],
+        ];
     }
 
-    public function setSections(){
-        $this->sections = array(
-            array(
+    public function setSections()
+    {
+
+        $this->sections = [
+            [
                 'id' => 'cerv_guide_section',
                 'title' => '',
-                'callback' => array( $this, 'resourceGuideSectionCallback' ),
-                'page' => 'cerv_settings'
-            ),
-			array(
+                'callback' => [ $this, 'resourceGuideSectionCallback' ],
+                'page' => 'cerv_settings',
+            ],
+            [
                 'id' => 'cerv_settings_section',
                 'title' => 'Resource Settings',
-                'callback' => array( $this, 'resourceSettingsSectionCallback' ),
-                'page' => 'cerv_settings'
-            )
-        );
+                'callback' => [ $this, 'resourceSettingsSectionCallback' ],
+                'page' => 'cerv_settings',
+            ],
+        ];
     }
 
-    public function setFields(){
-        $this->fields = array(
-			array(
-				'id' => 'resource_select',
-				'title' => '<label for="resource">Select a resource:</label>',
-				'callback' => array( $this, 'resourceSelectOptions' ),
-				'page' => 'cerv_settings',
-				'section' => 'cerv_settings_section',
-				'args' => array(
-                    'label_for' => 'resource_select'
-                )
-			)
-        );
+    public function setFields()
+    {
+
+        $this->fields = [
+            [
+                'id' => 'resource_select',
+                'title' => '<label for="resource">Select a resource:</label>',
+                'callback' => [ $this, 'resourceSelectOptions' ],
+                'page' => 'cerv_settings',
+                'section' => 'cerv_settings_section',
+                'args' => [
+                    'label_for' => 'resource_select',
+                ],
+            ],
+        ];
     }
+
     
-    public function checkboxSanitize( $input )
-	{
-		$output = array();
-        $output['cerv_settings_field'] = isset( $input['cerv_settings_field'] ) ? true : false;
-		return $output;
-	}
+    public function checkboxSanitize($input)
+    {
+        $output = [];
+        $output['cerv_settings_field'] = isset($input['cerv_settings_field']) ? true : false;
+        return $output;
+    }
 
-	public function resourceGuideSectionCallback()
-	{
+    public function resourceGuideSectionCallback()
+    {
         require_once TemplateManager::pluginTemplate('partials/cerv-guide.php');
-	}
+    }
 
-	public function resourceSettingsSectionCallback()
-	{
+    public function resourceSettingsSectionCallback()
+    {
         echo '<h4>This section is where you can manage and configure your resource.</h4>';
-	}
+    }
 
-	public function resourceSelectOptions( $args )
-	{
-        $optionValue = esc_attr( get_option( 'resource_select' ) );
+    public function resourceSelectOptions($args)
+    {
+        $optionValue = esc_attr(get_option('resource_select'));
         require_once TemplateManager::pluginTemplate('fields/admin-resource-select.php');
     }
+
     
-    public function validateResourceSelect($input){
+    public function validateResourceSelect($input)
+    {
+
         $field = 'resource_select';
-        $oldValue = get_option( $field );
+        $oldValue = get_option($field);
         $newValue = $input;
-        $nonceActionKey = Config::get('settingsNonceKey');        
-        $isValidNonce = ( isset( $_POST['cerv_settings_form_nonce'] ) && wp_verify_nonce( $_POST['cerv_settings_form_nonce'], $nonceActionKey ) ) ? true : false;
+        $nonceActionKey = Config::get('settingsNonceKey');
+        $isValidNonce = ( isset($_POST['cerv_settings_form_nonce']) && wp_verify_nonce($_POST['cerv_settings_form_nonce'], $nonceActionKey) ) ? true : false;
 
         // Validate nonce
         if (!$isValidNonce) {
@@ -111,7 +129,7 @@ class SettingsPage implements SettingInterface
         }
 
         // Validate input
-        if ($newValue!=='users') {
+        if ($newValue !== 'users') {
             $input = $oldValue;
             add_settings_error('cerv_settings_group', 'invalid_resource_key', __('Invalid resource', 'wpse'), 'error');
         }
