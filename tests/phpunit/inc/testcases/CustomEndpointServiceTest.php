@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Tests\Inc\Testcases;
 
 use Includes\Config;
-use Brain\Monkey\Functions;
 use Brain\Monkey\Actions;
+use Brain\Monkey\Functions;
+use Tests\Inc\CERVTestCase;
 use Includes\Services\CustomEndpointService;
 use Includes\Services\API\HttpClientService;
 
-class CustomEndpointServiceTest extends \CERVTestCase
+class CustomEndpointServiceTest extends CERVTestCase
 {
 
     public function testInitializeAddActions()

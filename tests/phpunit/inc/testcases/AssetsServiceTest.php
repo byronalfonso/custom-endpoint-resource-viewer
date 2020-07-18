@@ -7,9 +7,10 @@ namespace Tests\Inc\Testcases;
 use Includes\Config;
 use Brain\Monkey\Actions;
 use Brain\Monkey\Functions;
+use Tests\Inc\CERVTestCase;
 use Includes\Services\AssetsService;
 
-class AssetsServiceTest extends \CERVTestCase
+class AssetsServiceTest extends CERVTestCase
 {
 
     public function setUp(): void

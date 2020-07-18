@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Tests\Inc\Testcases;
 
 use Includes\Config;
+use Tests\Inc\CERVTestCase;
 use Brain\Monkey\Functions;
 
-class ConfigTest extends \CERVTestCase
+class ConfigTest extends CERVTestCase
 {
 
     public function testInitInitializesTheConfig()
