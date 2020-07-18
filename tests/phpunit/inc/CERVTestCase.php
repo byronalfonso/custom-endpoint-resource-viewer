@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Tests\Inc;
+
+use Brain\Monkey;
 use PHPUnit\Framework\TestCase;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use Brain\Monkey;
 
 /**
  * Base test class for the CERV plugin
@@ -10,7 +14,6 @@ use Brain\Monkey;
 class CERVTestCase extends \PHPUnit\Framework\TestCase
 {
     use MockeryPHPUnitIntegration;
-
 
     protected $dummyPluginBaseName = 'cerv';
     protected $dummyPluginDirPath = 'plugins/';

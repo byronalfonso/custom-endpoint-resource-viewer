@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Tests\Inc\Testcases;
+
 use Includes\Config;
 use Brain\Monkey\Actions;
 use Brain\Monkey\Functions;
@@ -15,7 +19,7 @@ class AssetsServiceTest extends \CERVTestCase
         Config::init();
     }
 
-    public function test_initialize_register_assets()
+    public function testInitializeRegisterAssets()
     {
 
         Actions\expectAdded('init')->once();
@@ -25,7 +29,7 @@ class AssetsServiceTest extends \CERVTestCase
         self::assertTrue(has_action('init', '\Includes\Services\AssetsService->registerAssets()'));
     }
 
-    public function test_enqueueScripts_actually_enqueue_scripts()
+    public function testEnqueueScriptsActuallyEnqueueScripts()
     {
 
         $assetsService = \Mockery::mock(AssetsService::class)->makePartial();
@@ -39,7 +43,7 @@ class AssetsServiceTest extends \CERVTestCase
         $assetsService->enqueueScripts($testScripts);
     }
 
-    public function test_enqueueStyles_actually_enqueue_styles()
+    public function testEnqueueStylesActuallyEnqueueStyles()
     {
 
         $assetsService = \Mockery::mock(AssetsService::class)->makePartial();
@@ -57,7 +61,7 @@ class AssetsServiceTest extends \CERVTestCase
         $assetsService->enqueueStyles($testStyles);
     }
 
-    public function test_enqueueScripts_throw_error_for_empty_scripts()
+    public function testEnqueueScriptsThrowErrorForEmptyScripts()
     {
 
         $assetsService = \Mockery::mock(AssetsService::class)->makePartial();
@@ -68,7 +72,7 @@ class AssetsServiceTest extends \CERVTestCase
         $assetsService->enqueueScripts([]);
     }
 
-    public function test_enqueueStyles_throw_error_for_empty_styles()
+    public function testEnqueueStylesThrowErrorForEmptyStyles()
     {
 
         $assetsService = \Mockery::mock(AssetsService::class)->makePartial();
@@ -79,7 +83,7 @@ class AssetsServiceTest extends \CERVTestCase
         $assetsService->enqueueStyles([]);
     }
 
-    public function test_enqueueScripts_throw_error_when_not_given_an_array()
+    public function testEnqueueScriptsThrowErrorWhenNotGivenAnArray()
     {
 
         $assetsService = \Mockery::mock(AssetsService::class)->makePartial();
@@ -87,7 +91,7 @@ class AssetsServiceTest extends \CERVTestCase
         $assetsService->enqueueScripts('not_an_array');
     }
 
-    public function test_enqueueStyles_throw_error_when_not_given_an_array()
+    public function testEnqueueStylesThrowErrorWhenNotGivenAnArray()
     {
 
         $assetsService = \Mockery::mock(AssetsService::class)->makePartial();
