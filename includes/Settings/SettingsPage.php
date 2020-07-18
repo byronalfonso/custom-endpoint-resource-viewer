@@ -17,30 +17,30 @@ class SettingsPage implements SettingInterface
     public function initSettings()
     {
 
-        $this->setOptions();
-        $this->setSections();
-        $this->setFields();
+        $this->initOptions();
+        $this->initSections();
+        $this->initFields();
     }
 
-    public function options()
+    public function options(): array
     {
 
         return $this->options;
     }
 
-    public function sections()
+    public function sections(): array
     {
 
         return $this->sections;
     }
 
-    public function fields()
+    public function fields(): array
     {
 
         return $this->fields;
     }
 
-    private function setOptions()
+    private function initOptions()
     {
 
         $this->options = [
@@ -52,7 +52,7 @@ class SettingsPage implements SettingInterface
         ];
     }
 
-    public function setSections()
+    public function initSections()
     {
 
         $this->sections = [
@@ -71,7 +71,7 @@ class SettingsPage implements SettingInterface
         ];
     }
 
-    public function setFields()
+    public function initFields()
     {
 
         $this->fields = [
@@ -88,14 +88,6 @@ class SettingsPage implements SettingInterface
         ];
     }
 
-    
-    public function checkboxSanitize($input)
-    {
-        $output = [];
-        $output['cerv_settings_field'] = isset($input['cerv_settings_field']) ? true : false;
-        return $output;
-    }
-
     public function resourceGuideSectionCallback()
     {
         require_once TemplateManager::pluginTemplate('partials/cerv-guide.php');
@@ -106,32 +98,43 @@ class SettingsPage implements SettingInterface
         echo '<h4>This section is where you can manage and configure your resource.</h4>';
     }
 
-    public function resourceSelectOptions($args)
+    public function resourceSelectOptions(array $args)
     {
         $optionValue = esc_attr(get_option('resource_select'));
         require_once TemplateManager::pluginTemplate('fields/admin-resource-select.php');
     }
 
     
-    public function validateResourceSelect($input)
+    public function validateResourceSelect(string $input): string
     {
 
         $field = 'resource_select';
         $oldValue = get_option($field);
-        $newValue = $input;
+        $newValue = sanitize_text_field($input);
         $nonceActionKey = Config::get('settingsNonceKey');
-        $isValidNonce = ( isset($_POST['cerv_settings_form_nonce']) && wp_verify_nonce($_POST['cerv_settings_form_nonce'], $nonceActionKey) ) ? true : false;
+        $isValidNonce = ( isset($_POST['cerv_settings_form_nonce']) &&
+            wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['cerv_settings_form_nonce'])), $nonceActionKey) ) ? true : false;
 
         // Validate nonce
         if (!$isValidNonce) {
             $input = $oldValue;
-            add_settings_error('cerv_settings_group', 'invalid_settings_nonce_key', __('Illegal operation detected. Please use a valid nonce key.', 'wpse'), 'error');
+            add_settings_error(
+                'cerv_settings_group',
+                'invalid_settings_nonce_key',
+                __('Illegal operation detected. Please use a valid nonce key.', 'custom-endpoint-resource-viewer'),
+                'error'
+            );
         }
 
         // Validate input
         if ($newValue !== 'users') {
             $input = $oldValue;
-            add_settings_error('cerv_settings_group', 'invalid_resource_key', __('Invalid resource', 'wpse'), 'error');
+            add_settings_error(
+                'cerv_settings_group',
+                'invalid_resource_key',
+                __('Invalid resource', 'custom-endpoint-resource-viewer'),
+                'error'
+            );
         }
 
         return $input;

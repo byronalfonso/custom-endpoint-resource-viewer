@@ -69,7 +69,7 @@ class AssetsService implements PluginServiceInterface
 
         foreach ($scripts as $script) {
             // Make sure that script is allowed and registered
-            if (!in_array($script, $allowedScripts)) {
+            if (!in_array($script, $allowedScripts, true)) {
                 throw new \Exception("Error: You are trying to enqueue a script that is not registered in the AssetsService.");
             }
 
@@ -98,7 +98,7 @@ class AssetsService implements PluginServiceInterface
 
         foreach ($styles as $style) {
             // Make sure that style is allowed and registered
-            if (!in_array($style, $allowedStyles)) {
+            if (!in_array($style, $allowedStyles, true)) {
                 throw new \Exception("Error: You are trying to enqueue a style that is not registered in the AssetsService.");
             }
 

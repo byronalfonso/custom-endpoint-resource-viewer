@@ -125,7 +125,7 @@ class CustomEndpointService implements PluginServiceInterface
      *
      * @return void
      */
-    public function loadTemplate(string $template, $data)
+    public function loadTemplate(string $template, array $data)
     {
 
         $templateResource = $data; // $templateResource is used in the template to render things
@@ -139,6 +139,6 @@ class CustomEndpointService implements PluginServiceInterface
      */
     public function exit(string $message = "")
     {
-        die($message);
+        die(esc_html($message));
     }
 }
