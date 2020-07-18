@@ -33,9 +33,11 @@ class ConfigTest extends \CERVTestCase {
     }
 
     public function test_getAll_returns_all_config(){
+        Config::init();
 
         // All valid and existing config keys
         $validKeys = [
+            'pluginName',
             'pluginPath',
             'pluginUrl',
             'pluginTemplatePath',
@@ -43,10 +45,15 @@ class ConfigTest extends \CERVTestCase {
             'pluginAssetsUrl',
             'defaultEndpoint',
             'defaultAPIEnpoint',
-            'cacheExpiration'
+            'cacheExpiration',
+            'settingsNonceKey'
         ];
 
         $config = Config::getAll();
+
+
+        // print_r($config);
+        // die;
 
         // All valid keys must be present from the returned config
         foreach ($validKeys as $key) {

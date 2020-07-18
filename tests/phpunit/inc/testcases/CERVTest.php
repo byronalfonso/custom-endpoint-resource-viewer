@@ -15,12 +15,15 @@ class CERVTest extends \CERVTestCase {
         CERV::run();
 
         // After running the plugin, the initialized services should be 2 (2 are currently statically set inside CERV class)
-        $this->assertEquals( 2, count( CERV::getInitializedServices() ) );
+        $this->assertEquals( 5, count( CERV::getInitializedServices() ) );
 
         // Make sure that the initialized plugin services are correct
         $pluginServices = CERV::getInitializedServices();        
         $this->assertEquals( in_array(Includes\Services\AssetsService::class, $pluginServices), true );
+        $this->assertEquals( in_array(Includes\Services\Admin\LinksService::class, $pluginServices), true );
         $this->assertEquals( in_array(Includes\Services\CustomEndpointService::class, $pluginServices), true );
+        $this->assertEquals( in_array(Includes\Services\Admin\MenuPageService::class, $pluginServices), true );
+        $this->assertEquals( in_array(Includes\Services\Admin\SettingsService::class, $pluginServices), true );
 
         // Make sure that the initialized plugin are a child of the PluginServiceInterface.
         foreach ($pluginServices as $service) {
@@ -36,6 +39,7 @@ class CERVTest extends \CERVTestCase {
         CERV::run();
 
         // Verify that some values from the Config has been initialized and changed
+        $this->assertEquals( $this->dummyPluginBaseName . "/custom-endpoint-resource-viewer.php", Config::get('pluginName') );
         $this->assertEquals( $this->dummyPluginDirPath, Config::get('pluginPath') );
         $this->assertEquals( $this->dummyPluginDirUrl, Config::get('pluginUrl') );
         $this->assertEquals( $this->dummyTemplateDir . 'templates/', Config::get('themeTemplatePath') );
@@ -58,8 +62,8 @@ class CERVTest extends \CERVTestCase {
         // Run the plugin
         CERV::run();
         
-        // There should be 2 initialized plugin service
-        $this->assertEquals( 2, count( CERV::getInitializedServices() ) );
+        // There should be 5 initialized plugin service
+        $this->assertEquals( 5, count( CERV::getInitializedServices() ) );
         
         // Initialized the same services
         CERV::initializeServices([            
@@ -68,7 +72,7 @@ class CERVTest extends \CERVTestCase {
         ]);
 
         // Initialized services should be the same
-        $this->assertEquals( 2, count( CERV::getInitializedServices() ) );
+        $this->assertEquals( 5, count( CERV::getInitializedServices() ) );
     }
 }
 

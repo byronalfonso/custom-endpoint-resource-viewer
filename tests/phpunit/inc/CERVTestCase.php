@@ -10,6 +10,7 @@ use Brain\Monkey;
 class CERVTestCase extends \PHPUnit\Framework\TestCase {
     use MockeryPHPUnitIntegration;
 
+    protected $dummyPluginBaseName = 'cerv';
     protected $dummyPluginDirPath = 'plugins/';
     protected $dummyPluginDirUrl = 'plugins/cerv';
     protected $dummyTemplateDir = 'themes/'; 
@@ -17,6 +18,9 @@ class CERVTestCase extends \PHPUnit\Framework\TestCase {
     public function setUp(): void {
         parent::setUp();
         Monkey\setUp();
+
+        Monkey\Functions\when( 'plugin_basename' )
+            ->justReturn( $this->dummyPluginBaseName );
 
         Monkey\Functions\when( 'plugin_dir_path' )
             ->justReturn( $this->dummyPluginDirPath );

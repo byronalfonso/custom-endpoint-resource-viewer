@@ -88,7 +88,7 @@ class CustomEndpointServiceTest extends \CERVTestCase {
         ];
         $ceService->shouldReceive('loadResource')
             ->once()
-            ->with('/users')
+            ->with('users')
             ->andReturn(
                 $fakeResource
             );
@@ -105,7 +105,7 @@ class CustomEndpointServiceTest extends \CERVTestCase {
         $ceService->renderEndpointTemplate();
     }
 
-    public function test_renderEndpointTemplate_renders_the_custom_template_if_resource_has_errors(){
+    public function test_renderEndpointTemplate_renders_the_error_template_if_resource_has_errors(){
         Config::init();
         Functions\when( 'wp_enqueue_script' )->justReturn(true);
         Functions\when( 'wp_enqueue_style' )->justReturn(true);
@@ -124,7 +124,7 @@ class CustomEndpointServiceTest extends \CERVTestCase {
 
         $ceService->shouldReceive('loadResource')
             ->once()
-            ->with('/users')
+            ->with('users')
             ->andReturn(
                 $fakeErrorResource
             );

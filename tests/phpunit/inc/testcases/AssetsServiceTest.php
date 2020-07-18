@@ -23,15 +23,11 @@ class AssetsServiceTest extends \CERVTestCase {
     public function test_enqueueScripts_actually_enqueue_scripts(){
         $assetsService = \Mockery::mock( AssetsService::class )->makePartial();
 
-        $testScripts = ['script-one', 'script-two'];
+        $testScripts = ['cerv-resource-list'];
 
         Functions\expect('wp_enqueue_script')
             ->times(1)
-            ->with('script-one');
-
-        Functions\expect('wp_enqueue_script')
-            ->times(1)
-            ->with('script-two');
+            ->with('cerv-resource-list');
 
         $assetsService->enqueueScripts($testScripts);
     }
@@ -39,15 +35,15 @@ class AssetsServiceTest extends \CERVTestCase {
     public function test_enqueueStyles_actually_enqueue_styles(){
         $assetsService = \Mockery::mock( AssetsService::class )->makePartial();
 
-        $testStyles = ['style-one', 'style-two'];
+        $testStyles = ['cerv-resource-style', 'cerv-modal-style'];
 
         Functions\expect('wp_enqueue_style')
             ->times(1)
-            ->with('style-one');
+            ->with('cerv-resource-style');
 
         Functions\expect('wp_enqueue_style')
             ->times(1)
-            ->with('style-two');
+            ->with('cerv-modal-style');
 
         $assetsService->enqueueStyles($testStyles);
     }
