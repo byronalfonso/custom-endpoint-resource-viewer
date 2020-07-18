@@ -1,14 +1,17 @@
 <?php
 
-use \Includes\Config;
-use \Brain\Monkey\Functions;
-use \Brain\Monkey\Actions;
-use \Includes\Services\CustomEndpointService;
-use \Includes\Services\API\HttpClientService;
+use Includes\Config;
+use Brain\Monkey\Functions;
+use Brain\Monkey\Actions;
+use Includes\Services\CustomEndpointService;
+use Includes\Services\API\HttpClientService;
 
-class CustomEndpointServiceTest extends \CERVTestCase {
+class CustomEndpointServiceTest extends \CERVTestCase
+{
 
-    public function test_initialize_add_actions(){
+    public function test_initialize_add_actions()
+    {
+
         Config::init();
 
         Actions\expectAdded('init')->twice();
@@ -16,13 +19,14 @@ class CustomEndpointServiceTest extends \CERVTestCase {
 
         ( new CustomEndpointService() )->initialize();
 
-        self::assertTrue( has_action('init', '\Includes\Services\CustomEndpointService->customEnpointRewriteRule()') );
-        self::assertTrue( has_action('init', '\Includes\Services\CustomEndpointService->customRewriteTag()') );
-        self::assertTrue( has_action('template_redirect', '\Includes\Services\CustomEndpointService->overrideTemplate()') );
+        self::assertTrue(has_action('init', '\Includes\Services\CustomEndpointService->customEnpointRewriteRule()'));
+        self::assertTrue(has_action('init', '\Includes\Services\CustomEndpointService->customRewriteTag()'));
+        self::assertTrue(has_action('template_redirect', '\Includes\Services\CustomEndpointService->overrideTemplate()'));
     }
 
+    public function test_customRewriteTag_adds_the_correct_tag()
+    {
 
-    public function test_customRewriteTag_adds_the_correct_tag(){
         Config::init();
 
         Functions\expect('add_rewrite_tag')
@@ -32,7 +36,9 @@ class CustomEndpointServiceTest extends \CERVTestCase {
         ( new CustomEndpointService() )->customRewriteTag();
     }
 
-    public function test_customEnpointRewriteRule_add_the_correct_rule(){
+    public function test_customEnpointRewriteRule_add_the_correct_rule()
+    {
+
         Config::init();
 
         $test = new CustomEndpointService();
@@ -51,8 +57,10 @@ class CustomEndpointServiceTest extends \CERVTestCase {
     }
     
 
-    public function test_overrideTemplate_render_the_endpoint_template_if_query_var_is_detected(){
-        Functions\expect( 'get_query_var' )
+    public function test_overrideTemplate_render_the_endpoint_template_if_query_var_is_detected()
+    {
+
+        Functions\expect('get_query_var')
             ->with('cerv_endpoint')
             ->times(1)
             ->andReturn(true);
@@ -70,10 +78,12 @@ class CustomEndpointServiceTest extends \CERVTestCase {
         $ceService->overrideTemplate();
     }
 
-    public function test_renderEndpointTemplate_renders_the_custom_template_if_resource_has_no_error(){
+    public function test_renderEndpointTemplate_renders_the_custom_template_if_resource_has_no_error()
+    {
+
         Config::init();
-        Functions\when( 'wp_enqueue_script' )->justReturn(true);
-        Functions\when( 'wp_enqueue_style' )->justReturn(true);
+        Functions\when('wp_enqueue_script')->justReturn(true);
+        Functions\when('wp_enqueue_style')->justReturn(true);
 
         $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
 
@@ -82,9 +92,9 @@ class CustomEndpointServiceTest extends \CERVTestCase {
 
         // Should load resources
         $fakeResource = [
-            "status" => "success", 
+            "status" => "success",
             "data" => [],
-            "hasErrors" => false
+            "hasErrors" => false,
         ];
         $ceService->shouldReceive('loadResource')
             ->once()
@@ -105,10 +115,12 @@ class CustomEndpointServiceTest extends \CERVTestCase {
         $ceService->renderEndpointTemplate();
     }
 
-    public function test_renderEndpointTemplate_renders_the_error_template_if_resource_has_errors(){
+    public function test_renderEndpointTemplate_renders_the_error_template_if_resource_has_errors()
+    {
+
         Config::init();
-        Functions\when( 'wp_enqueue_script' )->justReturn(true);
-        Functions\when( 'wp_enqueue_style' )->justReturn(true);
+        Functions\when('wp_enqueue_script')->justReturn(true);
+        Functions\when('wp_enqueue_style')->justReturn(true);
 
         $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
 
@@ -117,9 +129,9 @@ class CustomEndpointServiceTest extends \CERVTestCase {
 
         // Should load resources
         $fakeErrorResource = [
-            "status" => "error", 
+            "status" => "error",
             "error" => "Error loading resource",
-            "hasErrors" => true
+            "hasErrors" => true,
         ];
 
         $ceService->shouldReceive('loadResource')
@@ -133,11 +145,10 @@ class CustomEndpointServiceTest extends \CERVTestCase {
         $templateName = 'error.php';
         $ceService->shouldReceive('loadTemplate')
             ->once()
-            ->with($templateName, $fakeErrorResource)            
+            ->with($templateName, $fakeErrorResource)
             ->andReturn(Config::get('pluginTemplatePath') . $templateName);
 
         HttpClientService::changeDevMode(true); // Used only to bypass an SSL error in testing
         $ceService->renderEndpointTemplate();
     }
-    
 }
