@@ -17,13 +17,13 @@ defined('ABSPATH') || exit;
 require_once dirname(__FILE__) . '/bootstrap.php';
 
 // Setup activation hook
-register_activation_hook( __FILE__, function(){
-  flush_rewrite_rules();
+register_activation_hook(__FILE__, static function () {
+    flush_rewrite_rules();
 });
 
 // Setup deactivation hook
-register_deactivation_hook( __FILE__, function(){
-  flush_rewrite_rules();
+register_deactivation_hook(__FILE__, static function () {
+    flush_rewrite_rules();
 });
 
 /**
