@@ -8,25 +8,25 @@ interface SettingInterface
 {
 
     /**
-     * Initializes the page
+     * Initializes the settings
      *
      */
     public function initSettings();
 
     /**
-     * Returns the options for the page
+     * Returns the options for the settings
      *
      */
     public function getOptions();
 
     /**
-     * Returns the options for the page
+     * Returns the options for the settings
      *
      */
     public function getSections();
 
     /**
-     * Returns the options for the page
+     * Returns the options for the settings
      *
      */
     public function getFields();

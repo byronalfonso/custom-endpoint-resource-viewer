@@ -10,6 +10,12 @@ use Includes\Interfaces\PluginServiceInterface;
 class AssetsService implements PluginServiceInterface
 {
     private static $instance;
+
+    /**
+     * Initializes all the functionality for the AssetsService
+     *
+     * @return void
+     */
     public function initialize()
     {
         add_action('init', [$this, 'registerAssets']);
@@ -28,6 +34,11 @@ class AssetsService implements PluginServiceInterface
         $this->localizeScripts();
     }
 
+    /**
+     * Returns instance of the AssetsService (singleton)
+     *
+     * @return void
+     */
     public static function instance(): AssetsService
     {
         if (empty(AssetsService::$instance)) {
@@ -37,6 +48,11 @@ class AssetsService implements PluginServiceInterface
         return AssetsService::$instance;
     }
 
+    /**
+     * Enqueue Scripts within the registered scripts
+     *
+     * @return void
+     */
     public function enqueueScripts(array $scripts)
     {
         // Make sure that AssetsService intance is instantiated
@@ -54,6 +70,11 @@ class AssetsService implements PluginServiceInterface
         }
     }
 
+    /**
+     * Enqueue Styles within the registered styles
+     *
+     * @return void
+     */
     public function enqueueStyles(array $styles)
     {
         // Make sure that AssetsService intance is instantiated
@@ -71,11 +92,21 @@ class AssetsService implements PluginServiceInterface
         }
     }
 
+    /**
+     * Creates instance of the AssetsService (singleton)
+     *
+     * @return void
+     */
     private function instantiate()
     {
         AssetsService::$instance = new AssetsService();
     }
 
+    /**
+     * Registers all allowed styles
+     *
+     * @return void
+     */
     private function registerStyles()
     {
 
@@ -83,11 +114,21 @@ class AssetsService implements PluginServiceInterface
         wp_register_style('cerv-modal-style', Config::get('pluginAssetsUrl') . '/css/cerv-modal.css', [], '1.0.0');
     }
 
+    /**
+     * Registers all allowed scripts
+     *
+     * @return void
+     */
     private function registerScripts()
     {
         wp_register_script('cerv-resource-list', Config::get('pluginAssetsUrl') . '/js/main.js', [ 'jquery' ], '1.0.0', false);
     }
 
+    /**
+     * Localizes all allowed scripts and data
+     *
+     * @return void
+     */
     private function localizeScripts()
     {
         wp_localize_script('cerv-resource-list', 'cervObj', [ 'api_endpoint' => Config::get('defaultAPIEnpoint') ]);
