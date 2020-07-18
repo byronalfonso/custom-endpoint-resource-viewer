@@ -48,7 +48,7 @@ class MenuPageService implements PluginServiceInterface
 
             $page = new $class();
             $this->initializePage($page);
-            $this->addMenuPage($page->getOptions());
+            $this->addMenuPage($page->options());
             array_push(self::$addedMenuPages, $class);
        }
     }

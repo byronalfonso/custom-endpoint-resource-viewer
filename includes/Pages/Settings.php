@@ -12,7 +12,7 @@ class Settings implements PageInterface
 {
     private $options = [];
 
-    public function getOptions(){
+    public function options(){
         return $this->options;
     }
 
