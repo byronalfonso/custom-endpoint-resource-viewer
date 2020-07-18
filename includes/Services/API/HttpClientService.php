@@ -48,7 +48,7 @@ class HttpClientService
         $this->client = new Client(['handler' => $stack]);
     }
 
-    public function setRequestOptions(array $options)
+    public function changeRequestOptions(array $options)
     {
 
         $this->requestOptions = $options;
@@ -82,7 +82,7 @@ class HttpClientService
         // In theory this class should support other REST operations
     }
 
-    public static function setDevMode(bool $mode = false)
+    public static function changeDevMode(bool $mode = false)
     {
 
         self::$devMode = $mode;

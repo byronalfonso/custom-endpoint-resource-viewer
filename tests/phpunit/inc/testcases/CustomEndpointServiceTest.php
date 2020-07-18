@@ -101,7 +101,7 @@ class CustomEndpointServiceTest extends \CERVTestCase {
             ->with($templateName, $templateResource)
             ->andReturn(Config::get('pluginTemplatePath') . $templateName);
 
-        HttpClientService::setDevMode(true); // Used only to bypass an SSL error in testing
+        HttpClientService::changeDevMode(true); // Used only to bypass an SSL error in testing
         $ceService->renderEndpointTemplate();
     }
 
@@ -136,7 +136,7 @@ class CustomEndpointServiceTest extends \CERVTestCase {
             ->with($templateName, $fakeErrorResource)            
             ->andReturn(Config::get('pluginTemplatePath') . $templateName);
 
-        HttpClientService::setDevMode(true); // Used only to bypass an SSL error in testing
+        HttpClientService::changeDevMode(true); // Used only to bypass an SSL error in testing
         $ceService->renderEndpointTemplate();
     }
     
