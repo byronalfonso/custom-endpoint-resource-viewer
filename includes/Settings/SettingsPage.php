@@ -136,8 +136,9 @@ class SettingsPage implements SettingInterface
             return $oldValue;
         }
 
-        if (!$this->validCustomEndpoint($newValue)) {
+        if (!$this->validCustomEndpoint($oldValue, $newValue)) {
             $this->error('invalid_custom_endpoint_key', 'Invalid custom endpoint value. Please refer to the rules below.');
+            return $oldValue;
         }
 
         return $input;
@@ -172,8 +173,31 @@ class SettingsPage implements SettingInterface
             wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['cerv_settings_form_nonce'])), $nonceActionKey) ) ? true : false;
     }
 
-    private function validCustomEndpoint($endpoint){
-        return false; // return false for now. add logic later
+    private function validCustomEndpoint($oldEndpoint, $newEndpoint){
+
+        /*
+            Rules:
+            - Must be a string
+            - Must be at least 4 chars long
+            - Must not exceed 15 chars
+            - Can have numbers but can't start with a number
+            - Must not be an existing end point (applies to all existing endpoints including the Wordpress default)
+        */
+
+        if( !is_string($newEndpoint) ){
+            return false;
+        }
+
+        if ( !preg_match("#^([A-Za-z][0-9]*){4,15}$#i", $newEndpoint) ){
+            return false;
+        }        
+
+        $rules = array_keys( get_option( 'rewrite_rules' ) );
+        if( ($newEndpoint !== $oldEndpoint) && in_array("^{$newEndpoint}$", $rules) ){
+            return false;
+        }
+
+        return true;
     }
 
     private function invalidNonceError(string $field = ""){
