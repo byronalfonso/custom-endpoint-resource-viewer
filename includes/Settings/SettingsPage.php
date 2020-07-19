@@ -13,6 +13,7 @@ class SettingsPage implements SettingInterface
     private $options = [];
     private $sections = [];
     private $fields = [];
+    private $customEndpointFieldError;
 
     public function initSettings()
     {        
@@ -196,7 +197,7 @@ class SettingsPage implements SettingInterface
         }
 
         if( strlen($newEndpoint) < 4 || strlen($newEndpoint) > 50 ){
-            $this->customEndpointFieldError = "Invalid custom endpoint value. Must be between 4 and 50 chars.";
+            $this->customEndpointFieldError = "Invalid custom endpoint value. Must be at least 4 characters long but not exceed 50.";
             return false;
         }
 

@@ -1,3 +1,8 @@
+<?php
+$endpointOptionValue = esc_attr(get_option('cerv_custom_endpoint_field'));
+$endpoint = ( !empty($endpointOptionValue) ) ? $endpointOptionValue : Includes\Config::get('defaultEndpoint');
+?>
+
 <style>
     .cerv-guide{
         margin-top: 25px;
@@ -6,8 +11,13 @@
 
     .cerv-guide .cerv-guide-section{
         background: #ddd;
-        padding: .5em 1em;
+        padding: .5em .8em;
         width:97%;
+    }
+
+    .cerv-guide .rules-section ul{
+        list-style-type: square;
+        padding-left: 1.75em;
     }
 
     .cerv-guide .rule{
@@ -33,7 +43,23 @@
     
     <div class="cerv-guide-section">
         <h2>How to use?</h2>
-        <p>Simply go to <a href="<?php echo get_site_url() ?>/cerv"><?php echo get_site_url() ?>/cerv</a> and you'll be able to access and view the list of resource (users only ATM)</p>
+        <p>Simply go to <a href="<?php echo get_site_url() ?>/<?php echo $endpoint;?>"><?php echo get_site_url() ?>/<?php echo $endpoint;?></a> and you'll be able to access and view the list of resource (users only ATM)</p>
+    </div>
+
+    <div class="cerv-guide-section rules-section">
+        <h2>Custom Endpoint Rules:</span></h2>
+        <ul>
+            <li>Must be a string</li>
+            <li>Must be at least 4 chars long</li>
+            <li>Must not exceed 50 chars</li>
+            <li>Can have numbers but can't start with a number</li>
+            <li>Must not be an existing end point (applies to all existing endpoints including the Wordpress default)</li>
+            <li>Can have dashes (-) but can't start with a dash.</li>
+            <li>More than one successive dashes are not allowed e.g. --, --- and so on.</li>
+            <li>Can have slash (/) but can't start with a slash.</li>
+            <li>More than one successive slashes are not allowed e.g. //, /// and so on.</li>
+            <li>Dashes and slashes at the end of the enpoint e.g. "enpoint-" will be removed resulting to just "endpoint".</li>
+        </ul>
     </div>
 
     <div class="cerv-guide-section">
@@ -41,7 +67,6 @@
         <ul>
             <li>Current 3rd party API in use - The https://jsonplaceholder.typicode.com</li>
             <li>The resource being fetched from the 3rd party API is `/users` e.g. https://jsonplaceholder.typicode.com/users</li>
-            <li>Customization of custom endpoint is <span style="color:green">currently disabled</span></li>
             <li>At the moment, <span style="color:green">`/users` is the only resource available</span></li>            
         </ul>
 

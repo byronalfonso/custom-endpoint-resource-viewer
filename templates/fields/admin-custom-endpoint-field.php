@@ -7,4 +7,4 @@ echo '<input type="text" name="cerv_custom_endpoint_field" value="' . $endpoint 
 
 ?>
 
-<span style="color:green; font-weight:bold">Please follow the rules in the "Rules" section above before saving.</span>
+<span style="color:green; font-weight:thin">Please refer to the rules above before saving.</span>
