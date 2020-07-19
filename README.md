@@ -33,6 +33,12 @@ Once the plugin is installed, you can simply access `/cerv` on your Wordpress si
 - Error handling in the frontend, if for some reason the AJAX fails, the modal window will display an error.
 - Responsive resource list table
 - Http Caching
+- CERV Settings page
+- Ability to modify the custom endpoint
+- Custom endpoint validation
+- Easy to extend code
+- Most if not all important parts were unit test (100% passing)
+- PHPCS (100% Code compliance)
 
 ---
 
@@ -94,20 +100,4 @@ With regards to Http caching, I've initially I've thought about creating my own 
 After reading a couple of resources and this [WP stack exchange article](https://wordpress.stackexchange.com/questions/164121/testing-hooks-callback/164138#164138), I've decided to use [PHPunit](https://github.com/sebastianbergmann/phpunit) along with [Brain Monkey](https://github.com/Brain-WP/BrainMonkey). After learning more about the experts opinion on "unit" testing and about Brain Monkey, it just makes so much sense to use it (Brain Monkey) to "unit" test my plugin (and just for all general theme and plugin development). I'll be honest though, learning Brain Monkey and Mockery (one of its dependencies) has a steep learning curb (IMHO), and takes awhile to get used to but you know what? It's well worth it :)
 
 #### Code coverage:
-- To my **rough estimate**, the unit testing covers around 60-70% of the code base and is currently targetting the most important parts of the code which is the main plugin class and the plugin services.
-
----
-
-## Roadmap:
-
-The following are **optional** features that I planned add in the very near future.
-
-- Add the custom endpoint link on the plugin description
-- Settings Page
-    - Ability to change the custom endpoint (statically set to `/cerv` ATM)
-    - Ability to override the custom endpoint via hooks.
-    - Dynamic setting of resource (set to load `users` ATM)
-    - Dynamic 3rd party API
-    - Themes
-- Ability to override the custom template in the theme.    
-- Ability to display resource through shortcodes.
+- To my **rough estimate**, the unit testing covers around 40-50% of the code base and is currently targetting the most important parts of the code which is the main plugin class and the plugin services.
