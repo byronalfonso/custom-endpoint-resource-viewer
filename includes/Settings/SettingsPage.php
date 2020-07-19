@@ -15,8 +15,7 @@ class SettingsPage implements SettingInterface
     private $fields = [];
 
     public function initSettings()
-    {
-
+    {        
         $this->initOptions();
         $this->initSections();
         $this->initFields();
@@ -47,6 +46,7 @@ class SettingsPage implements SettingInterface
             [
                 'option_group' => 'cerv_settings_group',
                 'option_name' => 'cerv_custom_endpoint_field',
+                'callback' => [ $this, 'validateCustomEnpointField'],
             ],
             [
                 'option_group' => 'cerv_settings_group',
@@ -123,6 +123,26 @@ class SettingsPage implements SettingInterface
         require_once TemplateManager::pluginTemplate('fields/admin-resource-select.php');
     }
 
+    public function validateCustomEnpointField(string $input): string
+    {
+
+        $field = 'cerv_custom_endpoint_field';
+        $oldValue = esc_attr(get_option($field));        
+        $newValue = sanitize_text_field($input);
+
+        // Validate nonce
+        if (!$this->validNonce()) {
+            $this->invalidNonceError('custom endpoint');
+            return $oldValue;
+        }
+
+        if (!$this->validCustomEndpoint($newValue)) {
+            $this->error('invalid_custom_endpoint_key', 'Invalid custom endpoint value. Please refer to the rules below.');
+        }
+
+        return $input;
+    }
+
     
     public function validateResourceSelect(string $input): string
     {
@@ -130,32 +150,48 @@ class SettingsPage implements SettingInterface
         $field = 'resource_select';
         $oldValue = get_option($field);
         $newValue = sanitize_text_field($input);
-        $nonceActionKey = Config::get('settingsNonceKey');
-        $isValidNonce = ( isset($_POST['cerv_settings_form_nonce']) &&
-            wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['cerv_settings_form_nonce'])), $nonceActionKey) ) ? true : false;
 
         // Validate nonce
-        if (!$isValidNonce) {
-            $input = $oldValue;
-            add_settings_error(
-                'cerv_settings_group',
-                'invalid_settings_nonce_key',
-                __('Illegal operation detected. Please use a valid nonce key.', 'custom-endpoint-resource-viewer'),
-                'error'
-            );
+        if (!$this->validNonce()) {
+            $this->invalidNonceError('resource');
+            return $oldValue;
         }
 
-        // Validate input
+        // Validate input. Note: this currently it only accepts one value
         if ($newValue !== 'users') {
-            $input = $oldValue;
-            add_settings_error(
-                'cerv_settings_group',
-                'invalid_resource_key',
-                __('Invalid resource', 'custom-endpoint-resource-viewer'),
-                'error'
-            );
+            $this->error('invalid_resource_key', 'Invalid resource field value.');
+            return $oldValue;
         }
 
         return $input;
+    }
+
+    private function validNonce(){
+        $nonceActionKey = Config::get('settingsNonceKey');
+        return ( isset($_POST['cerv_settings_form_nonce']) &&
+            wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['cerv_settings_form_nonce'])), $nonceActionKey) ) ? true : false;
+    }
+
+    private function validCustomEndpoint($endpoint){
+        return false; // return false for now. add logic later
+    }
+
+    private function invalidNonceError(string $field = ""){
+        $message = 'Invalid nonce key detected';
+
+        if($field){
+            $message .= " while saving the " . $field . " field.";
+        }
+
+        $this->error('invalid_settings_nonce_key', $message);
+    }
+
+    private function error(string $key, string $message){
+        add_settings_error(
+            'cerv_settings_group',
+            'invalid_settings_nonce_key',
+            __($message, 'custom-endpoint-resource-viewer'),
+            'error'
+        );
     }
 }
