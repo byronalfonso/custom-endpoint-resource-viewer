@@ -16,7 +16,7 @@ class SettingsPage implements SettingInterface
     private $customEndpointFieldError;
 
     public function initSettings()
-    {        
+    {
         $this->customEndpointFieldError = 'Invalid custom endpoint value. Please refer to the rules below.';
         $this->initOptions();
         $this->initSections();
@@ -129,7 +129,7 @@ class SettingsPage implements SettingInterface
     {
 
         $field = 'cerv_custom_endpoint_field';
-        $oldValue = esc_attr(get_option($field));        
+        $oldValue = esc_attr(get_option($field));
         $newValue = sanitize_text_field($input);
 
         // Validate nonce
@@ -143,7 +143,7 @@ class SettingsPage implements SettingInterface
             return $oldValue;
         }
 
-        return trim($input,"/-");
+        return trim($input, "/-");
     }
 
     
@@ -169,13 +169,16 @@ class SettingsPage implements SettingInterface
         return $input;
     }
 
-    private function validNonce(){
+    private function validNonce(): bool
+    {
+
         $nonceActionKey = Config::get('settingsNonceKey');
         return ( isset($_POST['cerv_settings_form_nonce']) &&
             wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['cerv_settings_form_nonce'])), $nonceActionKey) ) ? true : false;
     }
 
-    private function validCustomEndpoint($oldEndpoint, $newEndpoint){
+    private function validCustomEndpoint(string $oldEndpoint, string $newEndpoint): bool
+    {
 
         /*
             Rules:
@@ -183,7 +186,7 @@ class SettingsPage implements SettingInterface
             - Must be at least 4 chars long
             - Must not exceed 15 chars
             - Can have numbers but can't start with a number
-            - Must not be an existing end point (applies to all existing endpoints including the Wordpress default)
+            - Must not be an existing end point (applies to all existing endpoints including the WordPress default)
             - Can have dashes (-) but can't start with a dash.
             - More than one successive dashes are not allowed e.g. --, --- and so on
             - Can have slash (/) but can't start with a slash.
@@ -191,22 +194,22 @@ class SettingsPage implements SettingInterface
             - Dashes and slashes at the end of the enpoint e.g. "enpoint-" will be removed resulting to just "endpoint"
         */
         
-        if( !is_string($newEndpoint) ){
+        if (!is_string($newEndpoint)) {
             $this->customEndpointFieldError = "Invalid custom endpoint value. Must be a valid string.";
             return false;
         }
 
-        if( strlen($newEndpoint) < 4 || strlen($newEndpoint) > 50 ){
+        if (strlen($newEndpoint) < 4 || strlen($newEndpoint) > 50) {
             $this->customEndpointFieldError = "Invalid custom endpoint value. Must be at least 4 characters long but not exceed 50.";
             return false;
         }
 
-        if ( !preg_match("#^([A-Za-z]([A-Za-z0-9][-]?[\/]?)*)$#i", $newEndpoint) ){
+        if (!preg_match("#^([A-Za-z]([A-Za-z0-9][-]?[\/]?)*)$#i", $newEndpoint)) {
             return false;
         }
 
-        $rules = array_keys( get_option( 'rewrite_rules' ) );
-        if( ($newEndpoint !== $oldEndpoint) && in_array("^{$newEndpoint}$", $rules) ){
+        $rules = array_keys(get_option('rewrite_rules'));
+        if (($newEndpoint !== $oldEndpoint) && in_array("^{$newEndpoint}$", $rules, true)) {
             $this->customEndpointFieldError = "Invalid custom endpoint value. Value already exists.";
             return false;
         }
@@ -214,21 +217,25 @@ class SettingsPage implements SettingInterface
         return true;
     }
 
-    private function invalidNonceError(string $field = ""){
+    private function invalidNonceError(string $field = "")
+    {
+
         $message = 'Invalid nonce key detected';
 
-        if($field){
+        if ($field) {
             $message .= " while saving the " . $field . " field.";
         }
 
         $this->error('invalid_settings_nonce_key', $message);
     }
 
-    private function error(string $key, string $message){
+    private function error(string $key, string $message = '')
+    {
+
         add_settings_error(
             'cerv_settings_group',
             'invalid_settings_nonce_key',
-            __($message, 'custom-endpoint-resource-viewer'),
+            $message,
             'error'
         );
     }
