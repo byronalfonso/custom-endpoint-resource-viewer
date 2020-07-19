@@ -46,6 +46,10 @@ class SettingsPage implements SettingInterface
         $this->options = [
             [
                 'option_group' => 'cerv_settings_group',
+                'option_name' => 'cerv_custom_endpoint_field',
+            ],
+            [
+                'option_group' => 'cerv_settings_group',
                 'option_name' => 'resource_select',
                 'callback' => [ $this, 'validateResourceSelect'],
             ],
@@ -76,6 +80,16 @@ class SettingsPage implements SettingInterface
 
         $this->fields = [
             [
+                'id' => 'cerv_custom_endpoint_field',
+                'title' => 'Customize the endpoint',
+                'callback' => [ $this, 'cervCustomEndpointField' ],
+                'page' => 'cerv_settings',
+                'section' => 'cerv_settings_section',
+                'args' => [
+                    'label_for' => 'cerv_custom_endpoint_field',
+                ],
+            ],
+            [
                 'id' => 'resource_select',
                 'title' => '<label for="resource">Select a resource:</label>',
                 'callback' => [ $this, 'resourceSelectOptions' ],
@@ -96,6 +110,11 @@ class SettingsPage implements SettingInterface
     public function resourceSettingsSectionCallback()
     {
         echo '<h4>This section is where you can manage and configure your resource.</h4>';
+    }
+
+    public function cervCustomEndpointField(array $args)
+    {
+        require_once TemplateManager::pluginTemplate('fields/admin-custom-endpoint-field.php');
     }
 
     public function resourceSelectOptions(array $args)

@@ -58,7 +58,9 @@ class CustomEndpointService implements PluginServiceInterface
      */
     public function customEnpointRewriteRule()
     {
-        add_rewrite_rule("^{$this->defaultEndpoint}$", 'index.php?cerv_endpoint=1', 'top');
+        $endpointOptionValue = esc_attr(get_option('cerv_custom_endpoint_field'));
+        $endpoint = ( !empty($endpointOptionValue) ) ? $endpointOptionValue : $this->defaultEndpoint;
+        add_rewrite_rule("^{$endpoint}$", 'index.php?cerv_endpoint=1', 'top');
         flush_rewrite_rules();
     }
 
