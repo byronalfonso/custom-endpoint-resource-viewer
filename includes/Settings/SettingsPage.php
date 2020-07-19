@@ -16,6 +16,7 @@ class SettingsPage implements SettingInterface
 
     public function initSettings()
     {        
+        $this->customEndpointFieldError = 'Invalid custom endpoint value. Please refer to the rules below.';
         $this->initOptions();
         $this->initSections();
         $this->initFields();
@@ -137,11 +138,11 @@ class SettingsPage implements SettingInterface
         }
 
         if (!$this->validCustomEndpoint($oldValue, $newValue)) {
-            $this->error('invalid_custom_endpoint_key', 'Invalid custom endpoint value. Please refer to the rules below.');
+            $this->error('invalid_custom_endpoint_key', $this->customEndpointFieldError);
             return $oldValue;
         }
 
-        return $input;
+        return trim($input,"/-");
     }
 
     
@@ -186,13 +187,16 @@ class SettingsPage implements SettingInterface
             - More than one successive dashes are not allowed e.g. --, --- and so on
             - Can have slash (/) but can't start with a slash.
             - More than one successive slashes are not allowed e.g. //, /// and so on
+            - Dashes and slashes at the end of the enpoint e.g. "enpoint-" will be removed resulting to just "endpoint"
         */
         
         if( !is_string($newEndpoint) ){
+            $this->customEndpointFieldError = "Invalid custom endpoint value. Must be a valid string.";
             return false;
         }
 
         if( strlen($newEndpoint) < 4 || strlen($newEndpoint) > 50 ){
+            $this->customEndpointFieldError = "Invalid custom endpoint value. Must be between 4 and 50 chars.";
             return false;
         }
 
@@ -202,6 +206,7 @@ class SettingsPage implements SettingInterface
 
         $rules = array_keys( get_option( 'rewrite_rules' ) );
         if( ($newEndpoint !== $oldEndpoint) && in_array("^{$newEndpoint}$", $rules) ){
+            $this->customEndpointFieldError = "Invalid custom endpoint value. Value already exists.";
             return false;
         }
 
