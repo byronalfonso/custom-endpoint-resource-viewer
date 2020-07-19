@@ -14,6 +14,12 @@ use Includes\Services\API\HttpClientService;
 class CustomEndpointServiceTest extends CERVTestCase
 {
 
+    public function setUp(): void
+    {
+
+        parent::setUp();
+    }
+
     public function testInitializeAddActions()
     {
 
@@ -41,7 +47,35 @@ class CustomEndpointServiceTest extends CERVTestCase
         ( new CustomEndpointService() )->customRewriteTag();
     }
 
-    public function testCustomEnpointRewriteRuleAddTheCorrectRule()
+    public function testCustomEnpointRewriteRuleAddDynamicEndpointIfOptionExists()
+    {
+
+        Config::init();
+
+        $test = new CustomEndpointService();
+        $test->initialize(); // The initialize is needed to populate the defaultEndpoint
+        
+        $dummyDynamicEndpoint = "my-endpoint";
+
+        Functions\expect('get_option')
+            ->with('asdfasdfasdfas')
+            ->times(1)
+            ->andReturn($dummyDynamicEndpoint);
+
+        Functions\when('esc_attr')
+            ->justReturn($dummyDynamicEndpoint);
+
+        Functions\expect('add_rewrite_rule')
+            ->times(1)
+            ->with("^{$dummyDynamicEndpoint}$", 'index.php?cerv_endpoint=1', 'top');
+
+        Functions\expect('flush_rewrite_rules')
+            ->times(1);
+
+        $test->customEnpointRewriteRule();
+    }
+
+    public function testCustomEnpointRewriteRuleAddDefaultEndpointIfOptionDoesNotExists()
     {
 
         Config::init();
@@ -50,6 +84,14 @@ class CustomEndpointServiceTest extends CERVTestCase
         $test->initialize(); // The initialize is needed to populate the defaultEndpoint
 
         $defaultEndpoint = Config::get('defaultEndpoint');
+
+        Functions\expect('get_option')
+            ->with('asdfasdfasdfas')
+            ->times(1)
+            ->andReturn(null);
+
+        Functions\when('esc_attr')
+            ->justReturn(null);
 
         Functions\expect('add_rewrite_rule')
             ->times(1)

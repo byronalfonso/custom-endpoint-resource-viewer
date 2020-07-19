@@ -13,6 +13,18 @@ use Includes\Services\API\ResourceService;
 class CERVTest extends CERVTestCase
 {
 
+    public function setUp(): void
+    {
+
+        parent::setUp();
+        Functions\when('esc_attr')
+            ->justReturn(true);
+        Functions\when('get_option')
+            ->justReturn(true);
+        Functions\when('get_site_url')
+            ->justReturn(true);
+    }
+
     public function testRunInitializesThePluginServices()
     {
         // Initialized services should be none before running the CERV plugin.
