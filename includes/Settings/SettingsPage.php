@@ -182,15 +182,23 @@ class SettingsPage implements SettingInterface
             - Must not exceed 15 chars
             - Can have numbers but can't start with a number
             - Must not be an existing end point (applies to all existing endpoints including the Wordpress default)
+            - Can have dashes (-) but can't start with a dash.
+            - More than one successive dashes are not allowed e.g. --, --- and so on
+            - Can have slash (/) but can't start with a slash.
+            - More than one successive slashes are not allowed e.g. //, /// and so on
         */
-
+        
         if( !is_string($newEndpoint) ){
             return false;
         }
 
-        if ( !preg_match("#^([A-Za-z][0-9]*){4,15}$#i", $newEndpoint) ){
+        if( strlen($newEndpoint) < 4 || strlen($newEndpoint) > 50 ){
             return false;
-        }        
+        }
+
+        if ( !preg_match("#^([A-Za-z]([A-Za-z0-9][-]?[\/]?)*)$#i", $newEndpoint) ){
+            return false;
+        }
 
         $rules = array_keys( get_option( 'rewrite_rules' ) );
         if( ($newEndpoint !== $oldEndpoint) && in_array("^{$newEndpoint}$", $rules) ){
