@@ -20,17 +20,17 @@
         <?php foreach ($templateResource['data'] as $value) { ?>
             <tr role="row">
             <td role="cell" class="user-id">
-                <a href="#" class="user-details-link" data-user-id="<?php echo $value['id'] ?>">
+                <a href="#" class="resource-details-link" data-resource-id="<?php echo $value['id'] ?>">
                     <?php echo $value['id'] ?>
                 </a>
             </td>
             <td role="cell">
-                <a href="#" class="user-details-link" data-user-id="<?php echo $value['id'] ?>">
+                <a href="#" class="resource-details-link" data-resource-id="<?php echo $value['id'] ?>">
                     <?php echo $value['username'] ?>
                 </a>
             </td>
             <td role="cell">
-                <a href="#" class="user-details-link" data-user-id="<?php echo $value['id'] ?>">
+                <a href="#" class="resource-details-link" data-resource-id="<?php echo $value['id'] ?>">
                     <?php echo $value['name'] ?>
                 </a>
             </td>

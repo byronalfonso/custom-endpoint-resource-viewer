@@ -4,12 +4,12 @@
         $modal = $('.cerv-modal-overlay');
         $loader = $('.cerv-loader-container');
 
-        $('.user-details-link').on('click', function(e){
+        $('.resource-details-link').on('click', function(e){
             e.preventDefault();
             runModal();
-            let userId = $(this).data('user-id');
-            let userDetailsPath = `${cervObj.api_endpoint}/${cervObj.selected_resource_option}/${userId}`;
-            getResourceDetails( userDetailsPath );
+            let resourceId = $(this).data('resource-id');
+            let resourceDetailsPath = `${cervObj.api_endpoint}/${cervObj.selected_resource_option}/${resourceId}`;
+            getResourceDetails( resourceDetailsPath );
         });
 
         // Hide the modal window if overlay is clicked
@@ -79,7 +79,7 @@
                 case 'posts':
                     setModalTitle(data.title);
                     return (
-                        `<div class="user-info">
+                        `<div class="post-info">
                             <p><span class="modal-label">Post Id: </span> ${data.id}</p>
                             <p><span class="modal-label">Title: </span> ${data.title}</p>
                             <p><span class="modal-label">Content: </span> ${data.body}</p>
