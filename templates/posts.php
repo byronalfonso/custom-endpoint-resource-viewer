@@ -7,8 +7,8 @@
     <?php include_once  plugin_dir_path( __FILE__ ) . 'partials/modal.php'; ?>
     <table class="cerv-resource-table" role="table">
         <thead role="rowgroup">
-            <tr role="row">                
-                <th role="columnheader">User ID</th>                
+            <tr role="row">
+                <th role="columnheader">Post ID</th>
                 <th role="columnheader">Title</th>
             </tr>
         </thead>

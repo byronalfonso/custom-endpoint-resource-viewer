@@ -8,10 +8,7 @@
             e.preventDefault();
             runModal();
             let userId = $(this).data('user-id');
-            let userDetailsPath = `${cervObj.api_endpoint}/${userId}`;
-
-            console.log({userDetailsPath});
-
+            let userDetailsPath = `${cervObj.api_endpoint}/${cervObj.selected_resource_option}/${userId}`;
             getResourceDetails( userDetailsPath );
         });
 
@@ -45,30 +42,56 @@
         
         // If request is successful, populate the modal box with dynamic data
         function populateResourceDetails(data){
-            let address = data.address;
-            let company = data.company;
-
-            let content = (
-                `<div class="user-info">
-                    <h5>User Info</h5>
-                    <p><span class="modal-label">Username: </span> ${data.username}</p>
-                    <p><span class="modal-label">Email: </span> ${data.email}</p>
-                    <p><span class="modal-label">Phone: </span> ${data.phone}</p>
-                    <p><span class="modal-label">Website: </span> ${data.website}</p>
-                    <p><span class="modal-label">Address: </span> ${address.suite}, ${address.street}, ${address.city}, ${address.zipcode}</p>
-                </div>
-                <hr />
-                <div class="company">
-                    <h5>Company</h5>
-                    <p><span class="modal-label">Name: </span>${company.name}</p>
-                    <p><span class="modal-label">Catch Phrase: </span>${company.catchPhrase}</p>
-                    <p><span class="modal-label">BS: </span>${company.bs}</p>
-                </div>`
-            );
-            
-            $('.cerv-modal-header .title').text(data.name);
+            let content = getSelectedResourceContent(data, cervObj.selected_resource_option);
             $('.cerv-modal-content').html(content);
             $loader.hide();
+        }
+
+        function getSelectedResourceContent(data, selectedResource){            
+            const supportedResource = ['users', 'posts'];
+
+            if(supportedResource.indexOf(selectedResource) === -1){
+                throw "Resource not supported"; 
+            }
+
+            switch (selectedResource) {
+                case 'users':
+                    let address = data.address;
+                    let company = data.company;
+                    setModalTitle(data.name);
+                    return (
+                        `<div class="user-info">
+                            <h5>User Info</h5>
+                            <p><span class="modal-label">Username: </span> ${data.username}</p>
+                            <p><span class="modal-label">Email: </span> ${data.email}</p>
+                            <p><span class="modal-label">Phone: </span> ${data.phone}</p>
+                            <p><span class="modal-label">Website: </span> ${data.website}</p>
+                            <p><span class="modal-label">Address: </span> ${address.suite}, ${address.street}, ${address.city}, ${address.zipcode}</p>
+                        </div>
+                        <hr />
+                        <div class="company">
+                            <h5>Company</h5>
+                            <p><span class="modal-label">Name: </span>${company.name}</p>
+                            <p><span class="modal-label">Catch Phrase: </span>${company.catchPhrase}</p>
+                            <p><span class="modal-label">BS: </span>${company.bs}</p>
+                        </div>`
+                    );
+                case 'posts':
+                    setModalTitle(data.title);
+                    return (
+                        `<div class="user-info">
+                            <p><span class="modal-label">Post Id: </span> ${data.id}</p>
+                            <p><span class="modal-label">Title: </span> ${data.title}</p>
+                            <p><span class="modal-label">Content: </span> ${data.body}</p>
+                        </div>`
+                    );
+                default:
+                    return null;
+            }
+        }
+
+        function setModalTitle(title){
+            $('.cerv-modal-header .title').text(title);
         }
         
         // If request failed, make sure to display an error to the user
