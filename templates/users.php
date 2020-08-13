@@ -3,6 +3,7 @@
 <?php if ( !empty($templateResource) ) : ?>
 
 <div class="cerv-container">
+    <h2 class="cerv-resource-title"><?php echo $templateResource['title']?></h2>
     <?php include_once  plugin_dir_path( __FILE__ ) . 'partials/modal.php'; ?>
     <table class="cerv-resource-table" role="table">
         <thead role="rowgroup">

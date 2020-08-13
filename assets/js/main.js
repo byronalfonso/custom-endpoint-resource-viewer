@@ -8,7 +8,10 @@
             e.preventDefault();
             runModal();
             let userId = $(this).data('user-id');
-            let userDetailsPath = `${cervObj.api_endpoint}/users/${userId}`;
+            let userDetailsPath = `${cervObj.api_endpoint}/${userId}`;
+
+            console.log({userDetailsPath});
+
             getResourceDetails( userDetailsPath );
         });
 
