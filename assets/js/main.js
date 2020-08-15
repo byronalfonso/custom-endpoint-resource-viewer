@@ -22,6 +22,10 @@
             terminateModal();
         });
 
+        // Do not hide the modal if user clicked anywhere within the content area
+        $('.cerv-modal').on('click', function(e){
+            e.stopPropagation();
+        });
 
         // Display the loader and modal
         function runModal(){
@@ -48,7 +52,7 @@
         }
 
         function getSelectedResourceContent(data, selectedResource){            
-            const supportedResource = ['users', 'posts'];
+            const supportedResource = ['users', 'posts', 'photos'];
 
             if(supportedResource.indexOf(selectedResource) === -1){
                 throw "Resource not supported"; 
@@ -85,8 +89,18 @@
                             <p><span class="modal-label">Content: </span> ${data.body}</p>
                         </div>`
                     );
+                case 'photos':
+                    setModalTitle(data.title);
+                    return (
+                        `<div class="post-info">
+                            <p><span class="modal-label">Album ID: </span> ${data.albumId}</p>
+                            <p><span class="modal-label">Title: </span> ${data.title.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase())}</p>
+                            <p><span class="modal-label">URL: </span> <a href="${data.url}">${data.url}</a></p>
+                            <p><span class="modal-label">Thumbnail URL: </span> <a href="${data.thumbnailUrl}">${data.thumbnailUrl}</a></p>
+                        </div>`
+                    );
                 default:
-                    return null;
+                    return `<div>Cannot find the correct resource.</div>`;
             }
         }
 
