@@ -95,7 +95,7 @@ class CustomEndpointService implements PluginServiceInterface
             return;
         }
 
-        $templateResource = ['title' => ucfirst($selectedResourceOption), 'data' => $resource['data']];
+        $templateResource = ['title' => ucfirst($selectedResourceOption), 'data' => array_slice($resource['data'], 0, 10)];
         $this->loadTemplate("{$selectedResourceOption}.php", $templateResource);
     }
 

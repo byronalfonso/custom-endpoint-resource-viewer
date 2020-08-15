@@ -31,7 +31,7 @@
             </td>
             <td role="cell">
                 <a href="#" class="resource-details-link" data-resource-id="<?php echo $value['id'] ?>">
-                    <?php echo $value['title'] ?>
+                    <?php echo ucwords($value['title']) ?>
                 </a>
             </td>            
             </tr>

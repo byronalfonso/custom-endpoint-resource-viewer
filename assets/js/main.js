@@ -81,7 +81,7 @@
                     return (
                         `<div class="post-info">
                             <p><span class="modal-label">Post Id: </span> ${data.id}</p>
-                            <p><span class="modal-label">Title: </span> ${data.title}</p>
+                            <p><span class="modal-label">Title: </span> ${data.title.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase())}</p>
                             <p><span class="modal-label">Content: </span> ${data.body}</p>
                         </div>`
                     );
@@ -90,8 +90,10 @@
             }
         }
 
-        function setModalTitle(title){
-            $('.cerv-modal-header .title').text(title);
+        function setModalTitle(title){            
+            $('.cerv-modal-header .title').text(
+                title.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase())
+            );
         }
         
         // If request failed, make sure to display an error to the user

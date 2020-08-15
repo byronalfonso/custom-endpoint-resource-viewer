@@ -4,7 +4,6 @@ div.cerv-container{
     margin: 0 auto;
     padding: 1.5em;
     height: 77vh;
-    overflow-y: scroll;
 }
 
 table.cerv-resource-table{
