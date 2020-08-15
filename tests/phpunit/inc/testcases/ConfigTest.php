@@ -59,6 +59,7 @@ class ConfigTest extends CERVTestCase
             'themeTemplatePath',
             'pluginAssetsUrl',
             'defaultEndpoint',
+            'defaultResource',
             'defaultAPIEnpoint',
             'cacheExpiration',
             'settingsNonceKey',

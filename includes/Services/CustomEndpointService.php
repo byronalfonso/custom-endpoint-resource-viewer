@@ -13,6 +13,7 @@ use Includes\Interfaces\PluginServiceInterface;
 class CustomEndpointService implements PluginServiceInterface
 {
     private $defaultEndpoint;
+    private $defaultResource;
 
     /**
      * Initializes all the functionality for the CustomEndpointService
@@ -22,6 +23,7 @@ class CustomEndpointService implements PluginServiceInterface
     public function initialize()
     {
         $this->defaultEndpoint = Config::get('defaultEndpoint');
+        $this->defaultResource = Config::get('defaultResource');
         add_action('init', [$this, 'customEnpointRewriteRule']);
         add_action('init', [$this, 'customRewriteTag']);
         add_action('template_redirect', [$this, 'overrideTemplate']);
@@ -87,6 +89,7 @@ class CustomEndpointService implements PluginServiceInterface
     {
         $this->loadAssets();
         $selectedResourceOption = esc_attr(get_option('resource_select'));
+        $selectedResourceOption = ( !empty($selectedResourceOption) ) ? $selectedResourceOption : $this->defaultResource;
 
         $resource = $this->loadResource($selectedResourceOption);
 
