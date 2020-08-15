@@ -162,7 +162,7 @@ class SettingsPage implements SettingInterface
         }
 
         // Validate input. Note: this currently it only accepts one value
-        if ( !in_array($newValue, $validResources) ) {
+        if (!in_array($newValue, $validResources, true)) {
             $this->error('invalid_resource_key', 'Invalid resource field value.');
             return $oldValue;
         }

@@ -230,7 +230,7 @@ class CustomEndpointServiceTest extends CERVTestCase
         Functions\expect('esc_attr')
             ->with($selectedResource)
             ->times(1)
-            ->andReturn($selectedResource); 
+            ->andReturn($selectedResource);
         
 
         $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
@@ -280,7 +280,7 @@ class CustomEndpointServiceTest extends CERVTestCase
         Functions\expect('esc_attr')
             ->with($selectedResource)
             ->times(1)
-            ->andReturn($selectedResource); 
+            ->andReturn($selectedResource);
         
 
         $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
