@@ -125,12 +125,24 @@ class CustomEndpointServiceTest extends CERVTestCase
         $ceService->overrideTemplate();
     }
 
-    public function testRenderEndpointTemplateRendersTheCustomTemplateIfResourceHasNoError()
+    public function testRenderEndpointTemplateRendersTheUserSelectedTemplateIfResourceHasNoError()
     {
 
         Config::init();
         Functions\when('wp_enqueue_script')->justReturn(true);
         Functions\when('wp_enqueue_style')->justReturn(true);
+
+        // Assume that the user selected resource is 'users'
+        $selectedResource = 'users';
+        Functions\expect('get_option')
+            ->with('resource_select')
+            ->times(1)
+            ->andReturn($selectedResource);
+        
+        Functions\expect('esc_attr')
+            ->with($selectedResource)
+            ->times(1)
+            ->andReturn($selectedResource);
 
         $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
 
@@ -145,14 +157,14 @@ class CustomEndpointServiceTest extends CERVTestCase
         ];
         $ceService->shouldReceive('loadResource')
             ->once()
-            ->with('users')
+            ->with($selectedResource)
             ->andReturn(
                 $fakeResource
             );
 
-        // Should load template
-        $templateName = 'custom.php';
-        $templateResource = ['title' => 'Users', 'data' => $fakeResource['data']];
+        // Should load users template
+        $templateName = "{$selectedResource}.php";
+        $templateResource = ['title' => ucfirst($selectedResource), 'data' => $fakeResource['data']];
         $ceService->shouldReceive('loadTemplate')
             ->once()
             ->with($templateName, $templateResource)
@@ -168,6 +180,8 @@ class CustomEndpointServiceTest extends CERVTestCase
         Config::init();
         Functions\when('wp_enqueue_script')->justReturn(true);
         Functions\when('wp_enqueue_style')->justReturn(true);
+        Functions\when('get_option')->justReturn('users');
+        Functions\when('esc_attr')->justReturn('users');
 
         $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
 
@@ -193,6 +207,106 @@ class CustomEndpointServiceTest extends CERVTestCase
         $ceService->shouldReceive('loadTemplate')
             ->once()
             ->with($templateName, $fakeErrorResource)
+            ->andReturn(Config::get('pluginTemplatePath') . $templateName);
+
+        HttpClientService::changeDevMode(true); // Used only to bypass an SSL error in testing
+        $ceService->renderEndpointTemplate();
+    }
+
+    public function testRenderEndpointTemplateRendersThePostsTemplateIfUserSelectedResourceIsSetToPosts()
+    {
+
+        Config::init();
+        Functions\when('wp_enqueue_script')->justReturn(true);
+        Functions\when('wp_enqueue_style')->justReturn(true);
+
+        // Assume that the user selected resource is 'posts'
+        $selectedResource = 'posts';
+        Functions\expect('get_option')
+            ->with('resource_select')
+            ->times(1)
+            ->andReturn($selectedResource);
+        
+        Functions\expect('esc_attr')
+            ->with($selectedResource)
+            ->times(1)
+            ->andReturn($selectedResource); 
+        
+
+        $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
+
+        // Should load assets
+        $ceService->shouldReceive('loadAssets')->once();
+
+        // Should load resources
+        $fakeResource = [
+            "status" => "success",
+            "data" => [],
+            "hasErrors" => false,
+        ];
+        $ceService->shouldReceive('loadResource')
+            ->once()
+            ->with($selectedResource)
+            ->andReturn(
+                $fakeResource
+            );
+
+        // Should load users template
+        $templateName = "{$selectedResource}.php";
+        $templateResource = ['title' => ucfirst($selectedResource), 'data' => $fakeResource['data']];
+        $ceService->shouldReceive('loadTemplate')
+            ->once()
+            ->with($templateName, $templateResource)
+            ->andReturn(Config::get('pluginTemplatePath') . $templateName);
+
+        HttpClientService::changeDevMode(true); // Used only to bypass an SSL error in testing
+        $ceService->renderEndpointTemplate();
+    }
+
+    public function testRenderEndpointTemplateRendersThePhotosTemplateIfUserSelectedResourceIsSetToPhotos()
+    {
+
+        Config::init();
+        Functions\when('wp_enqueue_script')->justReturn(true);
+        Functions\when('wp_enqueue_style')->justReturn(true);
+
+        // Assume that the user selected resource is 'photos'
+        $selectedResource = 'photos';
+        Functions\expect('get_option')
+            ->with('resource_select')
+            ->times(1)
+            ->andReturn($selectedResource);
+        
+        Functions\expect('esc_attr')
+            ->with($selectedResource)
+            ->times(1)
+            ->andReturn($selectedResource); 
+        
+
+        $ceService = \Mockery::mock(CustomEndpointService::class)->makePartial();
+
+        // Should load assets
+        $ceService->shouldReceive('loadAssets')->once();
+
+        // Should load resources
+        $fakeResource = [
+            "status" => "success",
+            "data" => [],
+            "hasErrors" => false,
+        ];
+        $ceService->shouldReceive('loadResource')
+            ->once()
+            ->with($selectedResource)
+            ->andReturn(
+                $fakeResource
+            );
+
+        // Should load users template
+        $templateName = "{$selectedResource}.php";
+        $templateResource = ['title' => ucfirst($selectedResource), 'data' => $fakeResource['data']];
+        $ceService->shouldReceive('loadTemplate')
+            ->once()
+            ->with($templateName, $templateResource)
             ->andReturn(Config::get('pluginTemplatePath') . $templateName);
 
         HttpClientService::changeDevMode(true); // Used only to bypass an SSL error in testing
