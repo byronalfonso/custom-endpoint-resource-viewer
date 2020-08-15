@@ -2,7 +2,21 @@
 
 <?php if ( !empty($templateResource) ) : ?>
 
+<style>
+    @media only screen 
+    and (max-width: 760px), (min-device-width: 768px) 
+    and (max-device-width: 1024px)  {
+        table.cerv-resource-table td:nth-of-type(1):before { content: "User ID"; }
+        table.cerv-resource-table td:nth-of-type(2):before { content: "Username"; }
+        table.cerv-resource-table td:nth-of-type(3):before { content: "Name"; }
+        table.cerv-resource-table td:nth-of-type(4):before { content: "Email"; }
+        table.cerv-resource-table td:nth-of-type(5):before { content: "Website"; }
+        table.cerv-resource-table td:nth-of-type(6):before { content: "Company"; }
+    }
+</style>
+
 <div class="cerv-container">
+    <h2 class="cerv-resource-title"><?php echo $templateResource['title']?></h2>
     <?php include_once  plugin_dir_path( __FILE__ ) . 'partials/modal.php'; ?>
     <table class="cerv-resource-table" role="table">
         <thead role="rowgroup">
@@ -19,17 +33,17 @@
         <?php foreach ($templateResource['data'] as $value) { ?>
             <tr role="row">
             <td role="cell" class="user-id">
-                <a href="#" class="user-details-link" data-user-id="<?php echo $value['id'] ?>">
+                <a href="#" class="resource-details-link" data-resource-id="<?php echo $value['id'] ?>">
                     <?php echo $value['id'] ?>
                 </a>
             </td>
             <td role="cell">
-                <a href="#" class="user-details-link" data-user-id="<?php echo $value['id'] ?>">
+                <a href="#" class="resource-details-link" data-resource-id="<?php echo $value['id'] ?>">
                     <?php echo $value['username'] ?>
                 </a>
             </td>
             <td role="cell">
-                <a href="#" class="user-details-link" data-user-id="<?php echo $value['id'] ?>">
+                <a href="#" class="resource-details-link" data-resource-id="<?php echo $value['id'] ?>">
                     <?php echo $value['name'] ?>
                 </a>
             </td>

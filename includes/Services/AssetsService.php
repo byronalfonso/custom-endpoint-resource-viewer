@@ -145,6 +145,10 @@ class AssetsService implements PluginServiceInterface
      */
     private function localizeScripts()
     {
-        wp_localize_script('cerv-resource-list', 'cervObj', [ 'api_endpoint' => Config::get('defaultAPIEnpoint') ]);
+        $selectedResourceOption = esc_attr(get_option('resource_select'));
+        wp_localize_script('cerv-resource-list', 'cervObj', [
+            'api_endpoint' => Config::get('defaultAPIEnpoint'),
+            'selected_resource_option' => $selectedResourceOption,
+        ]);
     }
 }

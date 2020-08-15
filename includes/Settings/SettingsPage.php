@@ -153,6 +153,7 @@ class SettingsPage implements SettingInterface
         $field = 'resource_select';
         $oldValue = get_option($field);
         $newValue = sanitize_text_field($input);
+        $validResources = ['users', 'posts', 'photos'];
 
         // Validate nonce
         if (!$this->validNonce()) {
@@ -161,7 +162,7 @@ class SettingsPage implements SettingInterface
         }
 
         // Validate input. Note: this currently it only accepts one value
-        if ($newValue !== 'users') {
+        if (!in_array($newValue, $validResources, true)) {
             $this->error('invalid_resource_key', 'Invalid resource field value.');
             return $oldValue;
         }

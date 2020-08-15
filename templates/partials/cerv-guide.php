@@ -43,7 +43,11 @@ $endpoint = ( !empty($endpointOptionValue) ) ? $endpointOptionValue : Includes\C
     
     <div class="cerv-guide-section">
         <h2>How to use?</h2>
-        <p>Simply go to <a href="<?php echo get_site_url() ?>/<?php echo $endpoint;?>"><?php echo get_site_url() ?>/<?php echo $endpoint;?></a> and you'll be able to access and view the list of resource (users only ATM)</p>
+        <ol>
+            <li>Add your custom endpoint</li>
+            <li>Choose a resource</li>
+            <li>And simply go to this link <a href="<?php echo get_site_url() ?>/<?php echo $endpoint;?>"><?php echo get_site_url() ?>/<?php echo $endpoint;?></a> to view the resource page.</li>
+        </ol>
     </div>
 
     <div class="cerv-guide-section rules-section">
@@ -58,7 +62,6 @@ $endpoint = ( !empty($endpointOptionValue) ) ? $endpointOptionValue : Includes\C
             <li>More than one successive dashes are not allowed e.g. --, --- and so on.</li>
             <li>Can have slash (/) but can't start with a slash.</li>
             <li>More than one successive slashes are not allowed e.g. //, /// and so on.</li>
-            <li>Dashes and slashes at the end of the enpoint e.g. "enpoint-" will be removed resulting to just "endpoint".</li>
         </ul>
     </div>
 
@@ -67,10 +70,6 @@ $endpoint = ( !empty($endpointOptionValue) ) ? $endpointOptionValue : Includes\C
         <ul>
             <li>Current 3rd party API in use - The https://jsonplaceholder.typicode.com</li>
             <li>The resource being fetched from the 3rd party API is `/users` e.g. https://jsonplaceholder.typicode.com/users</li>
-            <li>At the moment, <span style="color:green">`/users` is the only resource available</span></li>            
         </ul>
-
-        <h3 style="color:maroon">More to come in the near future :)</h3>
     </div>
-    <div class="rule"></div>
 </div>
