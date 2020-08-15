@@ -153,7 +153,7 @@ class SettingsPage implements SettingInterface
         $field = 'resource_select';
         $oldValue = get_option($field);
         $newValue = sanitize_text_field($input);
-        $validResources = ['users', 'posts'];
+        $validResources = ['users', 'posts', 'photos'];
 
         // Validate nonce
         if (!$this->validNonce()) {

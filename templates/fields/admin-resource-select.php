@@ -1,6 +1,6 @@
 <?php
   $selectedResource = esc_attr(get_option('resource_select'));
-  $availableResources = ["users", "posts"];
+  $availableResources = ["users", "posts", "photos"];
 ?>
 
 <select name="resource_select" id="resource">  
