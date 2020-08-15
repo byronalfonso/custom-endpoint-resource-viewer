@@ -24,18 +24,19 @@ git clone https://github.com/byronalfonso/custom-endpoint-resource-viewer.git
 
 ## How to use:
 
-Once the plugin is installed, you can simply access `/cerv` on your Wordpress site e.g. `http://yourwordpresssite.com/cerv`. Once in the page, you should be able to see the list of resource (ATM, it's statically set to load users). On the user table, you can click on each of the user's id, name and username and will load the details of the selected user in a modal window.
+Once the plugin is installed, you can simply access `/cerv` on your Wordpress site e.g. `http://yourwordpresssite.com/cerv`. Once in the page, you should be able to see the list of resource. On the user table, you can click on each of the user's id, name and username and will load the details of the selected user in a modal window.
 
 #### Features
 - Loading of resource. Currently set to display `users` by default.
-- Modal window for resource (`user`) details.
+- Ability to modify the custom endpoint
+- Custom endpoint validation
+- Ability to select a resource. Currently supports, `users`, `posts`, and `photos`
+- Modal window for resource (e.g. users) details.
 - Error handling and custom error page in case the resource is not properly loaded.
 - Error handling in the frontend, if for some reason the AJAX fails, the modal window will display an error.
 - Responsive resource list table
 - Http Caching
 - CERV Settings page
-- Ability to modify the custom endpoint
-- Custom endpoint validation
 - Easy to extend code
 - Most if not all important parts were unit test (100% passing)
 - PHPCS (100% Code compliance)
@@ -48,13 +49,20 @@ The plugin registers a custom endpoint ( defaults to "`/cerv`" ), targets a know
 
 ## Under the hood:
 
-The plugin is started by executing the run function from the main plugin class CERV.php 
+The plugin is started by executing the run function of the main plugin class CERV.php 
 
 ```php
 Includes\CERV::run();
 ```
 
-This in turn initializes all the registered "plugin services" of the app. These include the following classes `Includes\Services\CustomEndpointService` and `Includes\Services\AssetsService`. 
+This in turn initializes all the registered "plugin services" of the app. These include the following classes: 
+
+- `Includes\Services\CustomEndpointService`
+- `Includes\Services\AssetsService`
+- `Includes\Admin\LinksService`
+- `Includes\Admin\MenuPageService`
+- `Includes\Admin\SettingsService`
+ 
 
 ### CustomEndpointService
 
@@ -63,6 +71,18 @@ The CustomEndpointService basically takes care of registering and custom endpoin
 ### AssetsService
 
 The job of the AssetsService is to register all the required assets (scripts and styles) and localize them. It also takes care of enqueueing the registered assets upon execution of its public functions `enqueueScripts` and `enqueueStyles`.
+
+### LinksService
+
+The LinksService's job is to simply add links on the plugin description, (beside the activate and deactivate link) inside the plugins page of the Wordpress admin dashboard.
+
+### MenuPageService
+
+Handles the creation of menu pages and links for the admin side. It does this by creating a "Page" class that implements the `Includes\Interfaces\PageInterface` interface and registering it in itself (the MenuPageService class).
+
+### SettingsService
+
+Takes care of adding contents, settings, sections and fields for a menu page. It does this by creating a "Setting" class that implements the `Includes\Interfaces\SettingInterface`.
 
 
 ## Development:
