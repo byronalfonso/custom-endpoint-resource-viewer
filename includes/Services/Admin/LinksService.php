@@ -40,7 +40,7 @@ class LinksService implements PluginServiceInterface
     {
 
         $endpointOptionValue = esc_attr(get_option('cerv_custom_endpoint_field'));
-        $endpoint = ( !empty($endpointOptionValue) ) ? $endpointOptionValue : Includes\Config::get('defaultEndpoint');
+        $endpoint = ( !empty($endpointOptionValue) ) ? $endpointOptionValue : Config::get('defaultEndpoint');
         $this->links = [
             '<a href="admin.php?page=cerv_settings">Settings</a>',
             '<a href="' . get_site_url() . '/' . $endpoint . '">Go to the resource page</a>',
