@@ -146,6 +146,7 @@ class AssetsService implements PluginServiceInterface
     private function localizeScripts()
     {
         $selectedResourceOption = esc_attr(get_option('resource_select'));
+        $selectedResourceOption = ( !empty($selectedResourceOption) ) ? $selectedResourceOption : Config::get('defaultResource');
         wp_localize_script('cerv-resource-list', 'cervObj', [
             'api_endpoint' => Config::get('defaultAPIEnpoint'),
             'selected_resource_option' => $selectedResourceOption,
