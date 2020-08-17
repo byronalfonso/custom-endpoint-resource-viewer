@@ -210,7 +210,7 @@ class SettingsPage implements SettingInterface
         }
 
         $rules = array_keys(get_option('rewrite_rules'));
-        if (($newEndpoint !== $oldEndpoint) && in_array("^{$newEndpoint}$", $rules, true)) {
+        if (!empty($oldEndpoint) && ($newEndpoint !== $oldEndpoint) && in_array("^{$newEndpoint}$", $rules, true)) {
             $this->customEndpointFieldError = "Invalid custom endpoint value. Value already exists.";
             return false;
         }
